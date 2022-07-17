@@ -1,8 +1,14 @@
 import './SearchList.css';
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
+import { connect } from "react-redux";
+import {getDogList } from "../../redux/actions";
 
 class SearchList extends Component {
+    componentDidMount() {
+        this.props.getDogList();
+    }
+
     render() {
         return (
           <div className="SearchList">
@@ -22,4 +28,11 @@ class SearchList extends Component {
     }
 }
 
-export default SearchList;
+const mapStateToProps = (state) => {
+    console.log("Search list state: ", state);
+    return {dogList: state.dogList }
+}
+
+export const mapDispatchToProps = {getDogList};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchList);
