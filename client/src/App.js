@@ -6,6 +6,7 @@ import SearchList from "./components/search-list/SearchList";
 import Footer from "./components/footer/Footer";
 import Details from "./components/details/Details";
 import Create from "./components/create/Create";
+import Favorites from "./components/favorites/Favorites";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="/search-list" component={SearchList} />
             <Route path="/details/:id" component={Details} />
             <Route path="/create" component={Create} />
+            <Route path="/favorites" component={Favorites} />
             <Footer />
         </div>
     );
