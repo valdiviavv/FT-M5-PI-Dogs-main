@@ -7,6 +7,7 @@ import Footer from "./components/footer/Footer";
 import Details from "./components/details/Details";
 import Create from "./components/create/Create";
 import Favorites from "./components/favorites/Favorites";
+import About from "./components/abaut/About";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/v2/details/:id" component={Details} />
             <Route path="/create" component={Create} />
             <Route path="/favorites" component={Favorites} />
+            <Route path="/about" component={About} />
             <Footer />
         </div>
     );
