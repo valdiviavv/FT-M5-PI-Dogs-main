@@ -8,13 +8,13 @@ class SearchList extends Component {
           <div className="SearchList">
               <h1>Search List</h1>
               <p>
-                  <Link to="/details/1">Dog Details 1</Link>
+                  <Link to="/v1/details/1">Dog Details 1a</Link>
               </p>
               <p>
-                  <Link to="/details/2">Dog Details 2</Link>
+                  <Link to="/v1/details/2">Dog Details 2a</Link>
               </p>
               <p>
-                  <Link to="/details/3">Dog Details 3</Link>
+                  <Link to="/v2/details/1">Dog Details 1b</Link>
               </p>
               <br/>
           </div>

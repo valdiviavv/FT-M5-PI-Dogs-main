@@ -14,7 +14,8 @@ function App() {
             <Nav />
             <Route exact path="/" component={Home} />
             <Route path="/search-list" component={SearchList} />
-            <Route path="/details/:id" component={Details} />
+            <Route path="/v1/details/:id" component={Details} />
+            <Route path="/v2/details/:id" component={Details} />
             <Route path="/create" component={Create} />
             <Route path="/favorites" component={Favorites} />
             <Footer />

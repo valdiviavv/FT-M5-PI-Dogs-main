@@ -8,10 +8,10 @@ class Favorites extends Component {
           <div className="Favorites">
               <h1>Favorite Dogs</h1>
               <p>
-                  <Link to="/details/2">Dog Details 2</Link>
+                  <Link to="/v1/details/2">Dog Details 2a</Link>
               </p>
               <p>
-                  <Link to="/details/4">Dog Details 4</Link>
+                  <Link to="/v2/details/4">Dog Details 4b</Link>
               </p>
               <br/>
           </div>
