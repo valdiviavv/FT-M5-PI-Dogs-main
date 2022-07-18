@@ -73,9 +73,35 @@ const updateTemperament = async (req, res) => {
         });
 }
 
+const deleteTemperamentById = async (req, res) => {
+    const temperamentId = req.params.id;
+    const temperamentInstance = await Temperament.findByPk(temperamentId);
+
+    if (!temperamentInstance) {
+        return res.status(404).json({
+            msg: "The requested temperament was not found."
+        });
+    }
+
+    temperamentInstance.destroy({
+        where: {id: temperamentInstance}
+    })
+        .then(() => {
+            res.status(204).end();
+        })
+        .catch(error => {
+            console.log("error: ", error);
+            res.status(500).json({
+                msg: "There was an error retrieving database information",
+                error
+            })
+        });
+}
+
 module.exports = {
     getTemperamentList,
     getTemperamentById,
     createTemperament,
     updateTemperament,
+    deleteTemperamentById,
 }

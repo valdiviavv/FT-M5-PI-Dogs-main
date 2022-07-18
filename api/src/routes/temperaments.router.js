@@ -11,5 +11,6 @@ temperamentRouter.get('/', temperamentController.getTemperamentList);
 temperamentRouter.get('/:id', temperamentController.getTemperamentById);
 temperamentRouter.post('/',temperamentController.createTemperament);
 temperamentRouter.put('/:id',temperamentController.updateTemperament);
+temperamentRouter.delete('/:id',temperamentController.deleteTemperamentById);
 
 module.exports = temperamentRouter;
