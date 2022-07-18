@@ -1,5 +1,5 @@
 'use strict';
-const { Dog } = require('../db');
+const { Dog, Temperament } = require('../db');
 
 function getDogList(req, res) {
     Dog.findAll({
@@ -76,9 +76,36 @@ const updateDog = async (req, res) => {
         });
 }
 
+const deleteDogById = async (req, res) => {
+    const dogId = req.params.id;
+    const dogInstance = await Dog.findByPk(dogId);
+
+    if (!dogInstance) {
+        return res.status(404).json({
+            msg: "The requested dog was not found."
+        });
+    }
+
+    dogInstance.destroy({
+        where: {id: dogInstance}
+    })
+        .then(() => {
+            res.status(204).end();
+        })
+        .catch(error => {
+            console.log("error: ", error);
+            res.status(500).json({
+                msg: "There was an error retrieving database information",
+                error
+            })
+        });
+}
+
+
 module.exports = {
     getDogList,
     getDogById,
     createDog,
     updateDog,
+    deleteDogById,
 }
