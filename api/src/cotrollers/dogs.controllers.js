@@ -20,7 +20,9 @@ function getDogList(req, res) {
 
 function getDogById(req, res) {
     const dogId = req.params.id;
-    Dog.findByPk(dogId)
+    Dog.findByPk(dogId, {
+        include: ['temperaments']
+    })
         .then(data => {
             res.status(200).json(data);
         })
