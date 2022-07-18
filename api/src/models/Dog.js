@@ -8,19 +8,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    bread_for: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    breed_group: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     life_span: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    origin: {
       type: DataTypes.STRING,
       allowNull: false,
     },
