@@ -14,7 +14,8 @@ function getDogList(req, res) {
             msg: "There was an error retrieving database information",
             error
         })
-    });
+    })
+
 }
 
 function getDogById(req, res) {
@@ -49,8 +50,35 @@ function createDog(req, res) {
         });
 }
 
+const updateDog = async (req, res) => {
+    const dogId = req.params.id;
+    const dogInstance = await Dog.findByPk(dogId);
+
+    if (!dogInstance) {
+        return res.status(404).json({
+            msg: "The requested dog was not found."
+        });
+    }
+
+    const {name, life_span, weight_min, weight_max, height_min, height_max, image_url} = req.body;
+    dogInstance.update({
+        name, life_span, weight_min, weight_max, height_min, height_max, image_url
+    })
+        .then(data => {
+            res.status(200).json(data);
+        })
+        .catch(error => {
+            console.log("error: ", error);
+            res.status(500).json({
+                msg: "There was an error retrieving database information",
+                error
+            })
+        });
+}
+
 module.exports = {
     getDogList,
     getDogById,
     createDog,
+    updateDog,
 }
