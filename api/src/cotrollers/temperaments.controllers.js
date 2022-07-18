@@ -27,10 +27,28 @@ function getTemperamentById(req, res) {
                 msg: "There was an error retrieving database information",
                 error
             })
+        });
+}
+
+function createTemperament(req, res) {
+    const {name} = req.body;
+    Temperament.create({
+        name
+    })
+        .then(data => {
+            res.status(201).json(data);
+        })
+        .catch(error => {
+            console.log("error: ", error);
+            res.status(500).json({
+                msg: "There was an error retrieving database information",
+                error
+            })
         })
 }
 
 module.exports = {
     getTemperamentList,
     getTemperamentById,
+    createTemperament,
 }

@@ -9,5 +9,5 @@ const temperamentRouter = Router();
 // Ejemplo: router.use('/auth', authRouter);
 temperamentRouter.get('/', temperamentController.getTemperamentList);
 temperamentRouter.get('/:id', temperamentController.getTemperamentById);
-
+temperamentRouter.post('/',temperamentController.createTemperament);
 module.exports = temperamentRouter;
