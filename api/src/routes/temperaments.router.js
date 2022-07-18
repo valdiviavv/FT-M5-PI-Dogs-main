@@ -10,4 +10,6 @@ const temperamentRouter = Router();
 temperamentRouter.get('/', temperamentController.getTemperamentList);
 temperamentRouter.get('/:id', temperamentController.getTemperamentById);
 temperamentRouter.post('/',temperamentController.createTemperament);
+temperamentRouter.put('/:id',temperamentController.updateTemperament);
+
 module.exports = temperamentRouter;
