@@ -1,10 +1,22 @@
 'use strict';
 const { Dog, Temperament, DogsAndTemperaments } = require('../db');
+const { Op } = require("sequelize");
 
 function getDogList(req, res) {
-    Dog.findAll({
+    let options = {
         include: ['temperaments']
-    })
+    }
+
+    const dogName = req.query.name;
+    if(dogName) {
+        options['where'] = {
+            name: {
+                [Op.like]: `%${dogName}%`
+            }
+        }
+    }
+
+    Dog.findAll(options)
     .then(data => {
         res.status(200).json(data);
     })
@@ -14,8 +26,7 @@ function getDogList(req, res) {
             msg: "There was an error retrieving database information",
             error
         })
-    })
-
+    });
 }
 
 function getDogById(req, res) {
