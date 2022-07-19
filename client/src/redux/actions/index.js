@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export const GET_DOG_LIST = 'GET_DOG_LIST';
+export const UPDATE_FILTERED_LIST = 'UPDATE_FILTERED_LIST';
 
 export const getDogList = () => {
     return async function (dispatch) {
@@ -14,4 +15,11 @@ export const getDogList = () => {
         });
     };
 };
+
+export function updateFilteredList(filteredList) {
+    return {
+        type: UPDATE_FILTERED_LIST,
+        payload: filteredList
+    }
+}
 

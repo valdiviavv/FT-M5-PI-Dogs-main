@@ -6,13 +6,13 @@ import { connect } from "react-redux";
 class CardList extends Component {
 
     getCardPage() {
-        const {dogList, pageSize} = this.props;
+        const {filteredList, pageSize} = this.props;
         let dogPage = [];
-        if(dogList.length <= 0){
+        if(filteredList.length <= 0){
             return dogPage;
         }
-        for(let i = 0; i < pageSize; i++) {
-            dogPage.push(dogList[i]);
+        for(let i = 0; i < pageSize && i < filteredList.length; i++) {
+            dogPage.push(filteredList[i]);
         }
         return dogPage;
     }
@@ -22,7 +22,7 @@ class CardList extends Component {
               <h1>Card List</h1>
               {
                   this.getCardPage().map(dogItem =>
-                      <CardItem key={dogItem.id}
+                      <CardItem key={`${dogItem.apiVersion}-${dogItem.id}`}
                                 version={dogItem.apiVersion}
                                 cardId={dogItem.id}
                                 name={dogItem.name}
@@ -35,11 +35,11 @@ class CardList extends Component {
     }
 }
 
-// Makes dogList available in this component.
+// Makes filteredList available in this component.
 const mapStateToProps = (state) => {
     console.log("Card list state : ", state);
     return {
-        dogList: state.dogList,
+        filteredList: state.filteredList,
         pageSize: state.pageSize
     };
 }

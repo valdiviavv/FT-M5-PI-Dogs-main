@@ -1,4 +1,4 @@
-import {GET_DOG_LIST} from "../actions";
+import {GET_DOG_LIST, UPDATE_FILTERED_LIST} from "../actions";
 
 const initialState = {
     dogList: [],
@@ -13,6 +13,11 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 dogList: action.payload,
                 filteredList: action.payload,
+            }
+        case UPDATE_FILTERED_LIST:
+            return {
+                ...state,
+                filteredList: action.payload
             }
         default:
             return state;
