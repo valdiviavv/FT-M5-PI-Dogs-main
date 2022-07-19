@@ -1,7 +1,8 @@
 import {GET_DOG_LIST} from "../actions";
 
 const initialState = {
-    dogList: []
+    dogList: [],
+    pageSize: 8
 };
 
 const rootReducer = (state = initialState, action) => {

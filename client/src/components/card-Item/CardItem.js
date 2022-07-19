@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 class CardItem extends Component {
     render() {
-        const {version, cardId} = this.props;
+        const {version, cardId, name} = this.props;
         return (
             <div className="CardItem">
                 <p>Card Item</p>
@@ -12,6 +12,9 @@ class CardItem extends Component {
                     <Link to={`/${version}/details/${cardId}`}>
                         Dog Details {`${version}-${cardId}`}
                     </Link>
+                </p>
+                <p>
+                    {name}
                 </p>
                 <br/>
             </div>
