@@ -1,5 +1,5 @@
 'use strict';
-const { Dog, Temperament } = require('../db');
+const { Dog, Temperament, DogsAndTemperaments } = require('../db');
 
 function getDogList(req, res) {
     Dog.findAll({
@@ -35,21 +35,19 @@ function getDogById(req, res) {
         });
 }
 
-function createDog(req, res) {
-    const {name, life_span, weight_min, weight_max, height_min, height_max, image_url} = req.body;
-    Dog.create({
+const createDog = async (req, res) => {
+    const {name, life_span, weight_min, weight_max, height_min, height_max, image_url, temperaments} = req.body;
+
+    let dogInstance = await Dog.create({
         name, life_span, weight_min, weight_max, height_min, height_max, image_url
+    });
+
+    temperaments.map(async item => {
+        const [tempInstance, created ] = await Temperament.findOrCreate({where: { name: item.name }});
+        await dogInstance.addTemperament(tempInstance, {through: DogsAndTemperaments})
     })
-        .then(data => {
-            res.status(201).json(data);
-        })
-        .catch(error => {
-            console.log("error: ", error);
-            res.status(500).json({
-                msg: "There was an error retrieving database information",
-                error
-            })
-        });
+
+    res.status(204).end();
 }
 
 const updateDog = async (req, res) => {
