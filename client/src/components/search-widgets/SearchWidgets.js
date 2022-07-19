@@ -1,5 +1,6 @@
 import "./SearchWidgets.css";
 import React, {Component} from "react";
+import {connect} from "react-redux";
 
 class SearchWidgets extends Component {
     render() {
@@ -18,4 +19,12 @@ class SearchWidgets extends Component {
     }
 }
 
-export default SearchWidgets;
+const mapStateToProps = (state) => {
+    console.log("Search Widgets state : ", state);
+    return {
+        dogList: state.dogList,
+        filteredList: state.filteredList
+    };
+}
+
+export default connect(mapStateToProps)(SearchWidgets);
