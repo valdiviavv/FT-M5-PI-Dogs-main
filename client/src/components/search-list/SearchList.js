@@ -2,6 +2,7 @@ import './SearchList.css';
 import React, {Component} from "react";
 import SearchWidgets from "../search-widgets/SearchWidgets";
 import CardList from "../card-list/CardList";
+import PaginateList from "../paginate-list/PaginateList";
 import { connect } from "react-redux";
 import {getDogList } from "../../redux/actions";
 
@@ -16,6 +17,7 @@ class SearchList extends Component {
               <h1>Search List</h1>
               <SearchWidgets />
               <CardList />
+              <PaginateList />
               <br/>
           </div>
         );
