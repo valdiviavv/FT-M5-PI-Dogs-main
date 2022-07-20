@@ -6,9 +6,6 @@ import { updatePageList } from "../../redux/actions";
 class PaginateList extends Component {
     componentDidMount() {
         const {sourceList, pageSize} = this.props;
-        if(sourceList.length === 0) {
-            return;
-        }
         const newPageList = sourceList.slice(0, pageSize);
         this.props.updatePageList(newPageList);
     }
@@ -23,7 +20,7 @@ class PaginateList extends Component {
     }
     renderButtonList() {
         const listLength = this.props.sourceList.length;
-        if(listLength === 0 ) {
+        if(listLength === 0) {
             return;
         }
         const buttonList = [];
@@ -51,7 +48,6 @@ class PaginateList extends Component {
 const mapStateToProps = (state) => {
     console.log("Page list state : ", state);
     return {
-        pageList: state.pageList,
         pageSize: state.pageSize
     };
 }

@@ -15,7 +15,7 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 dogList: action.payload,
                 filteredList: action.payload,
-                pageList: action.payload.slice(0, state.pageSize)
+                favoriteList: action.payload.slice(0, 3), //todo - remove
             }
         case UPDATE_FILTERED_LIST:
             return {
