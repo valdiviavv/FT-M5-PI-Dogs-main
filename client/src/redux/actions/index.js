@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const GET_DOG_LIST = 'GET_DOG_LIST';
 export const UPDATE_FILTERED_LIST = 'UPDATE_FILTERED_LIST';
+export const UPDATE_PAGE_LIST = 'UPDATE_PAGE_LIST';
 
 export const getDogList = () => {
     return async function (dispatch) {
@@ -23,3 +24,9 @@ export function updateFilteredList(filteredList) {
     }
 }
 
+export function updatePageList(pageList) {
+    return {
+        type: UPDATE_PAGE_LIST,
+        payload: pageList
+    }
+}
