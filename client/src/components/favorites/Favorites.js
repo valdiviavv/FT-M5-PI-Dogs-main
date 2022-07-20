@@ -1,22 +1,28 @@
 import './Favorites.css';
 import React,{Component} from "react";
-import {Link} from "react-router-dom";
+import CardList from "../card-list/CardList";
+import PaginateList from "../paginate-list/PaginateList";
+import { connect } from "react-redux";
 
 class Favorites extends Component {
     render() {
         return(
           <div className="Favorites">
               <h1>Favorite Dogs</h1>
-              <p>
-                  <Link to="/v1/details/2">Dog Details 2a</Link>
-              </p>
-              <p>
-                  <Link to="/v2/details/4">Dog Details 4b</Link>
-              </p>
+              <CardList pageList={this.props.pageList}/>
+              <PaginateList sourceList={this.props.favoriteList}/>
               <br/>
           </div>
         );
     }
 }
 
-export default Favorites;
+const mapStateToProps = (state) => {
+    console.log("favorite list state: ", state);
+    return {
+        favoriteList: state.favoriteList,
+        pageList: state.pageList,
+    }
+}
+
+export default connect(mapStateToProps)(Favorites);

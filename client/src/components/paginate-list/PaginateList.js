@@ -4,16 +4,25 @@ import { connect } from "react-redux";
 import { updatePageList } from "../../redux/actions";
 
 class PaginateList extends Component {
+    componentDidMount() {
+        const {sourceList, pageSize} = this.props;
+        if(sourceList.length === 0) {
+            return;
+        }
+        const newPageList = sourceList.slice(0, pageSize);
+        this.props.updatePageList(newPageList);
+    }
+
     updatePageList(event) {
-        const {filteredList, pageSize} = this.props;
+        const {sourceList, pageSize} = this.props;
         const pageNumber = Number(event.target.textContent);
         const indexEnd = pageNumber * pageSize;
         const indexIni = indexEnd - pageSize;
-        const newPageList = filteredList.slice(indexIni, indexEnd);
+        const newPageList = sourceList.slice(indexIni, indexEnd);
         this.props.updatePageList(newPageList);
     }
     renderButtonList() {
-        const listLength = this.props.filteredList.length;
+        const listLength = this.props.sourceList.length;
         if(listLength === 0 ) {
             return;
         }
@@ -42,7 +51,6 @@ class PaginateList extends Component {
 const mapStateToProps = (state) => {
     console.log("Page list state : ", state);
     return {
-        filteredList: state.filteredList,
         pageList: state.pageList,
         pageSize: state.pageSize
     };

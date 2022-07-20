@@ -1,7 +1,6 @@
 import './CardList.css';
 import React, {Component} from "react";
 import CardItem from "../card-Item/CardItem";
-import { connect } from "react-redux";
 
 class CardList extends Component {
     render() {
@@ -23,12 +22,4 @@ class CardList extends Component {
     }
 }
 
-// Makes filteredList available in this component.
-const mapStateToProps = (state) => {
-    console.log("Card list state : ", state);
-    return {
-        pageList: state.pageList,
-    };
-}
-
-export default connect(mapStateToProps)(CardList);
+export default CardList;

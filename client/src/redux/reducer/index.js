@@ -3,6 +3,7 @@ import {GET_DOG_LIST, UPDATE_FILTERED_LIST, UPDATE_PAGE_LIST} from "../actions";
 const initialState = {
     dogList: [],
     filteredList: [],
+    favoriteList: [],
     pageList: [],
     pageSize: 8
 };
