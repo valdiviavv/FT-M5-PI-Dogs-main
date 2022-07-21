@@ -1,7 +1,8 @@
 import {GET_DOG_LIST,
     UPDATE_FILTERED_LIST,
     UPDATE_PAGE_LIST,
-    ADD_FAVORITE_ITEM} from "../actions";
+    ADD_FAVORITE_ITEM,
+    DEL_FAVORITE_ITEM} from "../actions";
 
 const initialState = {
     dogList: [],
@@ -29,6 +30,20 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 favoriteList: [action.payload, ...state.favoriteList]
+            }
+        case DEL_FAVORITE_ITEM:
+            const newFavoriteList = state.favoriteList.filter(item =>
+                item.id !== action.payload.id &&
+                item.apiVersion === action.payload.apiVersion
+            );
+            const newPageList = state.pageList.filter(item =>
+                item.id !== action.payload.id &&
+                item.apiVersion === action.payload.apiVersion
+            );
+            return {
+                ...state,
+                favoriteList: newFavoriteList,
+                pageList: newPageList,
             }
         case UPDATE_PAGE_LIST:
             return {

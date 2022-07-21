@@ -5,7 +5,12 @@ import {Link} from "react-router-dom";
 class CardItem extends Component {
     handleOnClick(event, version, cardId) {
         event.preventDefault();
-        this.props.addToFavoriteList(version, cardId);
+        if (this.props.enableAddToFavorites) {
+            this.props.addToFavoriteList(version, cardId);
+        }
+        if (this.props.enableRemoveFromFavorites) {
+            this.props.delelteFromFavoriteList(version, cardId);
+        }
     }
     render() {
         const {version, cardId, name} = this.props;
@@ -16,11 +21,18 @@ class CardItem extends Component {
                     <Link to={`/${version}/details/${cardId}`}>
                         Dog Details {`${version}-${cardId}`}
                     </Link>
+                    {this.props.enableAddToFavorites &&
                     <button
-                    className="button"
-                    onClick={e => this.handleOnClick(e, version, cardId)}>
+                        className="button"
+                        onClick={e => this.handleOnClick(e, version, cardId)}>
                         Add to favorite
-                    </button>
+                    </button>}
+                    {this.props.enableRemoveFromFavorites &&
+                        <button
+                            className="button"
+                            onClick={e => this.handleOnClick(e, version, cardId)}>
+                            Remove from favorite
+                        </button>}
                 </p>
                 <p>
                     {name}

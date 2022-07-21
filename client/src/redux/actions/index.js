@@ -3,6 +3,7 @@ import axios from 'axios';
 export const GET_DOG_LIST = 'GET_DOG_LIST';
 export const UPDATE_FILTERED_LIST = 'UPDATE_FILTERED_LIST';
 export const ADD_FAVORITE_ITEM = 'ADD_FAVORITE_ITEM';
+export const DEL_FAVORITE_ITEM = 'DEL_FAVORITE_ITEM';
 export const UPDATE_PAGE_LIST = 'UPDATE_PAGE_LIST';
 
 export const getDogList = () => {
@@ -28,6 +29,13 @@ export function updateFilteredList(filteredList) {
 export function appendFavoriteList(favoriteItem) {
     return {
         type: ADD_FAVORITE_ITEM,
+        payload: favoriteItem
+    }
+}
+
+export function removeFavoriteList(favoriteItem) {
+    return {
+        type: DEL_FAVORITE_ITEM,
         payload: favoriteItem
     }
 }

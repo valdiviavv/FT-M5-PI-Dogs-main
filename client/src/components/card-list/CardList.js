@@ -2,7 +2,7 @@ import './CardList.css';
 import React, {Component} from "react";
 import CardItem from "../card-Item/CardItem";
 import {connect} from "react-redux";
-import {appendFavoriteList} from "../../redux/actions";
+import {appendFavoriteList, removeFavoriteList} from "../../redux/actions";
 
 class CardList extends Component {
     renderEmptyMessage() {
@@ -13,12 +13,23 @@ class CardList extends Component {
         }
     }
 
-    addToFavoriteList(version, cardId) {
-        const element = this.props.pageList.find(item =>
+    findItem(version, cardId) {
+        return this.props.pageList.find(item =>
             item.id === cardId && item.apiVersion === version
         );
+    }
+
+    addToFavoriteList(version, cardId) {
+        const element = this.findItem(version, cardId);
         if (element) {
             this.props.appendFavoriteList(element);
+        }
+    }
+
+    deleteFromFavoriteList(version, cardId) {
+        const newFavoriteList = this.findItem(version, cardId);
+        if (newFavoriteList) {
+            this.props.removeFavoriteList(newFavoriteList);
         }
     }
 
@@ -33,7 +44,10 @@ class CardList extends Component {
                                 version={dogItem.apiVersion}
                                 cardId={dogItem.id}
                                 name={dogItem.name}
-                                addToFavoriteList ={(version, cardId) => this.addToFavoriteList(version, cardId)}
+                                enableAddToFavorites={this.props.enableAddToFavorites}
+                                enableRemoveFromFavorites={this.props.enableRemoveFromFavorites}
+                                addToFavoriteList={(version, cardId) => this.addToFavoriteList(version, cardId)}
+                                delelteFromFavoriteList={(version, cardId) => this.deleteFromFavoriteList(version, cardId)}
                       />
                   )
               }
@@ -43,6 +57,6 @@ class CardList extends Component {
     }
 }
 
-export const mapDispatchToProps = {appendFavoriteList};
+export const mapDispatchToProps = {appendFavoriteList, removeFavoriteList};
 
 export default connect(null, mapDispatchToProps)(CardList);

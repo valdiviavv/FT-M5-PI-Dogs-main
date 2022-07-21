@@ -27,7 +27,9 @@ class SearchList extends Component {
           <div className="SearchList">
               <h1>Search List</h1>
               <SearchWidgets />
-              <CardList pageList={this.props.pageList}/>
+              <CardList
+                    pageList={this.props.pageList}
+                    enableAddToFavorites={true}/>
               <PaginateList sourceList={this.props.filteredList}/>
               <br/>
           </div>

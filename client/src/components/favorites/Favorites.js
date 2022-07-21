@@ -25,7 +25,9 @@ class Favorites extends Component {
         return(
           <div className="Favorites">
               <h1>Favorite Dogs</h1>
-              <CardList pageList={this.props.pageList}/>
+              <CardList
+                    pageList={this.props.pageList}
+                    enableRemoveFromFavorites={true}/>
               <PaginateList sourceList={this.props.favoriteList}/>
               <br/>
           </div>
