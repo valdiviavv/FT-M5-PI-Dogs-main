@@ -11,6 +11,40 @@ class Details extends Component {
         }
     }
 
+    getImageUrl(dogItem) {
+        if (dogItem.apiVersion === 'v1') {
+            return dogItem.image.url;
+        } else {
+            return dogItem.image_url;
+        }
+    }
+
+    getTemperamentList(dogItem){
+        if (dogItem.apiVersion === 'v1') {
+            return dogItem.temperament;
+        } else {
+            const tempList = [];
+            dogItem.temperaments.map(item => tempList.push(item.name + ', '));
+            return tempList;
+        }
+    }
+
+    getWeight(dogItem) {
+        if (dogItem.apiVersion === 'v1') {
+            return dogItem.weight.metric;
+        } else {
+            return (`${dogItem.weight_min}  -  ${dogItem.weight_max}`);
+        }
+    }
+
+    getHeight(dogItem) {
+        if (dogItem.apiVersion === 'v1') {
+            return dogItem.height.metric;
+        } else {
+            return (`${dogItem.height_min}  -  ${dogItem.height_max}`)
+        }
+    }
+
     getApiVersion(match) {
         if (match.url.includes("v1")) {
             return "v1"; // read-only-api
@@ -20,9 +54,6 @@ class Details extends Component {
     }
 
     findDetail() {
-        if (this.props.dogList.length === 0) {
-            return false;
-        }
         const dogId = Number(this.props.match.params.id);
         const version = this.getApiVersion(this.props.match);
         return this.props.dogList.find(item =>
@@ -31,18 +62,29 @@ class Details extends Component {
     }
 
     renderDogItem() {
-        const dogItem = this.findDetail();
-        if (!dogItem) {
+        if (this.props.dogList.length === 0) {
             return (
                 <div>
                     The store is empty...
                 </div>
             );
         }
+        const dogItem = this.findDetail();
+        if (!dogItem) {
+            return (
+                <div>
+                    The request dog was not found...
+                </div>
+            );
+        }
         return (
             <div>
                 <h1>Details from '{dogItem.name}' Dog</h1>
+                <p>Temperament: {this.getTemperamentList(dogItem)}</p>
+                <p>Weight: {this.getWeight(dogItem)}</p>
+                <p>Height: {this.getHeight(dogItem)} </p>
                 <p>Life span: {dogItem.life_span}</p>
+                <img src={this.getImageUrl(dogItem)} alt={dogItem.name}/>
                 <br/>
             </div>
         );
