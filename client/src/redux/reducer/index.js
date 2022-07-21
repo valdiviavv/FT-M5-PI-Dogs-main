@@ -1,4 +1,7 @@
-import {GET_DOG_LIST, UPDATE_FILTERED_LIST, UPDATE_PAGE_LIST} from "../actions";
+import {GET_DOG_LIST,
+    UPDATE_FILTERED_LIST,
+    UPDATE_PAGE_LIST,
+    ADD_FAVORITE_ITEM} from "../actions";
 
 const initialState = {
     dogList: [],
@@ -15,13 +18,17 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 dogList: action.payload,
                 filteredList: action.payload,
-                favoriteList: action.payload.slice(0, 3), //todo - remove
             }
         case UPDATE_FILTERED_LIST:
             return {
                 ...state,
                 filteredList: action.payload,
                 pageList: action.payload.slice(0, state.pageSize)
+            }
+        case ADD_FAVORITE_ITEM:
+            return {
+                ...state,
+                favoriteList: [action.payload, ...state.favoriteList]
             }
         case UPDATE_PAGE_LIST:
             return {
