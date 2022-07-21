@@ -4,12 +4,21 @@ import SearchWidgets from "../search-widgets/SearchWidgets";
 import CardList from "../card-list/CardList";
 import PaginateList from "../paginate-list/PaginateList";
 import { connect } from "react-redux";
-import {getDogList } from "../../redux/actions";
+import {getDogList,updatePageList } from "../../redux/actions";
 
 class SearchList extends Component {
     componentDidMount() {
         if (this.props.dogList.length === 0 ) {
             this.props.getDogList();
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {filteredList, pageSize} = this.props;
+        if(prevProps.filteredList !== filteredList &&
+           filteredList.length !== 0) {
+            const newPageList = filteredList.slice(0, pageSize);
+            this.props.updatePageList(newPageList);
         }
     }
 
@@ -32,9 +41,10 @@ const mapStateToProps = (state) => {
         dogList: state.dogList,
         filteredList: state.filteredList,
         pageList: state.pageList,
+        pageSize: state.pageSize,
     }
 }
 
-export const mapDispatchToProps = {getDogList};
+export const mapDispatchToProps = {getDogList, updatePageList};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchList);
