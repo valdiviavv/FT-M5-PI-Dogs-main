@@ -1,26 +1,70 @@
 import './Details.css';
 import React,{Component} from "react";
+import {connect} from "react-redux";
+import {getDogList, updatePageList} from "../../redux/actions";
 
 class Details extends Component {
 
-    getDetailType(match) {
-        if (match.url.includes("v1")) {
-            return "read-only-api";
-        } else {
-            return "database-api";
+    componentDidMount() {
+        if (this.props.dogList.length === 0) {
+            this.props.getDogList();
         }
     }
 
+    getApiVersion(match) {
+        if (match.url.includes("v1")) {
+            return "v1"; // read-only-api
+        } else {
+            return "v2"; // database-api
+        }
+    }
+
+    findDetail() {
+        if (this.props.dogList.length === 0) {
+            return false;
+        }
+        const dogId = Number(this.props.match.params.id);
+        const version = this.getApiVersion(this.props.match);
+        return this.props.dogList.find(item =>
+            item.id === dogId && item.apiVersion === version
+        );
+    }
+
+    renderDogItem() {
+        const dogItem = this.findDetail();
+        if (!dogItem) {
+            return (
+                <div>
+                    The store is empty...
+                </div>
+            );
+        }
+        return (
+            <div>
+                <h1>Details from '{dogItem.name}' Dog</h1>
+                <p>Life span: {dogItem.life_span}</p>
+                <br/>
+            </div>
+        );
+    }
+
     render() {
-        const dogId = this.props.match.params.id;
-        const detailType = this.getDetailType(this.props.match);
         return(
           <div className="Details">
-              <h1>Details Dog '{dogId}'</h1>
-              <p>Details from: {detailType}</p>
+              {this.renderDogItem()}
           </div>
         );
     }
 }
 
-export default Details;
+const mapStateToProps = (state) => {
+    console.log("favorite list state: ", state);
+    return {
+        dogList: state.dogList,
+    }
+}
+
+export const mapDispatchToProps = {getDogList, updatePageList};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Details);
