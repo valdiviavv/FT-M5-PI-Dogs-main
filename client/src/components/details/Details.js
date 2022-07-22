@@ -2,46 +2,13 @@ import './Details.css';
 import React,{Component} from "react";
 import {connect} from "react-redux";
 import {getDogList, updatePageList} from "../../redux/actions";
+import dogFields from "../common/dog-fields";
 
 class Details extends Component {
 
     componentDidMount() {
         if (this.props.dogList.length === 0) {
             this.props.getDogList();
-        }
-    }
-
-    getImageUrl(dogItem) {
-        if (dogItem.apiVersion === 'v1') {
-            return dogItem.image.url;
-        } else {
-            return dogItem.image_url;
-        }
-    }
-
-    getTemperamentList(dogItem){
-        if (dogItem.apiVersion === 'v1') {
-            return dogItem.temperament;
-        } else {
-            const tempList = [];
-            dogItem.temperaments.map(item => tempList.push(item.name + ', '));
-            return tempList;
-        }
-    }
-
-    getWeight(dogItem) {
-        if (dogItem.apiVersion === 'v1') {
-            return dogItem.weight.metric;
-        } else {
-            return (`${dogItem.weight_min}  -  ${dogItem.weight_max}`);
-        }
-    }
-
-    getHeight(dogItem) {
-        if (dogItem.apiVersion === 'v1') {
-            return dogItem.height.metric;
-        } else {
-            return (`${dogItem.height_min}  -  ${dogItem.height_max}`)
         }
     }
 
@@ -80,11 +47,11 @@ class Details extends Component {
         return (
             <div>
                 <h1>Details from '{dogItem.name}' Dog</h1>
-                <p>Temperament: {this.getTemperamentList(dogItem)}</p>
-                <p>Weight: {this.getWeight(dogItem)}</p>
-                <p>Height: {this.getHeight(dogItem)} </p>
+                <p>Temperament: {dogFields.getTemperamentList(dogItem)}</p>
+                <p>Weight: {dogFields.getWeight(dogItem)}</p>
+                <p>Height: {dogFields.getHeight(dogItem)} </p>
                 <p>Life span: {dogItem.life_span}</p>
-                <img src={this.getImageUrl(dogItem)} alt={dogItem.name}/>
+                <img src={dogFields.getImageUrl(dogItem)} alt={dogItem.name}/>
                 <br/>
             </div>
         );

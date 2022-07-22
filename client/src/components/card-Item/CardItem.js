@@ -13,7 +13,7 @@ class CardItem extends Component {
         }
     }
     render() {
-        const {version, cardId, name} = this.props;
+        const {version, cardId, name, temperamentList,weight,image_url} = this.props;
         return (
             <div className="CardItem">
                 <p>Card Item</p>
@@ -34,9 +34,10 @@ class CardItem extends Component {
                             Remove from favorite
                         </button>}
                 </p>
-                <p>
-                    {name}
-                </p>
+                <p>{name}</p>
+                <p>Weight: {weight}</p>
+                <p>{temperamentList}</p>
+                <img src={image_url} alt={name}/>
                 <br/>
             </div>
         );

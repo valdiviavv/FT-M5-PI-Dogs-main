@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import CardItem from "../card-Item/CardItem";
 import {connect} from "react-redux";
 import {appendFavoriteList, removeFavoriteList} from "../../redux/actions";
+import dogFields from "../common/dog-fields";
 
 class CardList extends Component {
     renderEmptyMessage() {
@@ -44,6 +45,9 @@ class CardList extends Component {
                                 version={dogItem.apiVersion}
                                 cardId={dogItem.id}
                                 name={dogItem.name}
+                                temperamentList={dogFields.getTemperamentList(dogItem)}
+                                weight={dogFields.getWeight(dogItem)}
+                                image_url={dogFields.getImageUrl(dogItem)}
                                 enableAddToFavorites={this.props.enableAddToFavorites}
                                 enableRemoveFromFavorites={this.props.enableRemoveFromFavorites}
                                 addToFavoriteList={(version, cardId) => this.addToFavoriteList(version, cardId)}
