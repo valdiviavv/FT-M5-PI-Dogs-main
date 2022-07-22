@@ -5,6 +5,7 @@ import CardList from "../card-list/CardList";
 import PaginateList from "../paginate-list/PaginateList";
 import { connect } from "react-redux";
 import {getDogList,updatePageList } from "../../redux/actions";
+import listUtils from "../common/list-utils";
 
 class SearchList extends Component {
     componentDidMount() {
@@ -14,12 +15,7 @@ class SearchList extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {filteredList, pageSize} = this.props;
-        if(prevProps.filteredList !== filteredList &&
-           filteredList.length !== 0) {
-            const newPageList = filteredList.slice(0, pageSize);
-            this.props.updatePageList(newPageList);
-        }
+        listUtils.refreshPageList(prevProps, this.props);
     }
 
     render() {

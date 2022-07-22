@@ -4,6 +4,7 @@ import CardList from "../card-list/CardList";
 import PaginateList from "../paginate-list/PaginateList";
 import { connect } from "react-redux";
 import {getDogList, updatePageList} from "../../redux/actions";
+import listUtils from "../common/list-utils";
 
 class Favorites extends Component {
     componentDidMount() {
@@ -13,12 +14,7 @@ class Favorites extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {favoriteList, pageSize} = this.props;
-        if(prevProps.favoriteList !== favoriteList &&
-            favoriteList.length !== 0) {
-            const newPageList = favoriteList.slice(0, pageSize);
-            this.props.updatePageList(newPageList);
-        }
+      listUtils.refreshPageList(prevProps, this.props);
     }
 
     render() {
