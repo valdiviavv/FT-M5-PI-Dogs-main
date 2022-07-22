@@ -53,12 +53,13 @@ const createDog = async (req, res) => {
         name, life_span, weight_min, weight_max, height_min, height_max, image_url
     });
 
-    temperaments.map(async item => {
-        const [tempInstance, created ] = await Temperament.findOrCreate({where: { name: item.name }});
-        await dogInstance.addTemperament(tempInstance, {through: DogsAndTemperaments})
-    })
-
-    res.status(204).end();
+    if (temperaments && typeof temperaments === 'object') {
+        temperaments.map(async item => {
+            const [tempInstance, created] = await Temperament.findOrCreate({where: {name: item.name}});
+            await dogInstance.addTemperament(tempInstance, {through: DogsAndTemperaments})
+        })
+    }
+    res.status(201).json({dogId: dogInstance.id});
 }
 
 const updateDog = async (req, res) => {
