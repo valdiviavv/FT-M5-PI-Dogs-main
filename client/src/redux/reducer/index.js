@@ -2,14 +2,15 @@ import {GET_DOG_LIST,
     UPDATE_FILTERED_LIST,
     UPDATE_PAGE_LIST,
     ADD_FAVORITE_ITEM,
-    DEL_FAVORITE_ITEM} from "../actions";
+    DEL_FAVORITE_ITEM,
+    CREATE_DOG_ITEM} from "../actions";
 
 const initialState = {
     dogList: [],
     filteredList: [],
     favoriteList: [],
     pageList: [],
-    pageSize: 8
+    pageSize: 8,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -49,6 +50,11 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 pageList: action.payload
+            }
+        case CREATE_DOG_ITEM:
+            return {
+                ...state,
+                dogList: [action.payload, ...state.dogList]
             }
         default:
             return state;

@@ -5,6 +5,7 @@ export const UPDATE_FILTERED_LIST = 'UPDATE_FILTERED_LIST';
 export const ADD_FAVORITE_ITEM = 'ADD_FAVORITE_ITEM';
 export const DEL_FAVORITE_ITEM = 'DEL_FAVORITE_ITEM';
 export const UPDATE_PAGE_LIST = 'UPDATE_PAGE_LIST';
+export const CREATE_DOG_ITEM = 'CREATE_DOG_ITEM';
 
 export const getDogList = () => {
     return async function (dispatch) {
@@ -44,5 +45,12 @@ export function updatePageList(pageList) {
     return {
         type: UPDATE_PAGE_LIST,
         payload: pageList
+    }
+}
+
+export const saveDogItem = (dogItem) => {
+    return {
+        type: CREATE_DOG_ITEM,
+        payload: dogItem
     }
 }
