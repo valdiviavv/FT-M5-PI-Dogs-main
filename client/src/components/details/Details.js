@@ -67,7 +67,6 @@ class Details extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("favorite list state: ", state);
     return {
         dogList: state.dogList,
     }

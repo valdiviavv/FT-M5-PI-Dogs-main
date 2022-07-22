@@ -46,7 +46,6 @@ class PaginateList extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("Page list state : ", state);
     return {
         pageSize: state.pageSize
     };

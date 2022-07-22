@@ -34,7 +34,6 @@ class SearchList extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("Search list state: ", state);
     return {
         dogList: state.dogList,
         filteredList: state.filteredList,

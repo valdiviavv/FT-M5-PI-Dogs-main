@@ -23,7 +23,6 @@ class SearchWidgets extends Component {
     }
 
     handleSelectChange(event) {
-        console.log("select : ", event.target.value);
         this.updateFilteredList(event.target.value);
     }
 
@@ -43,7 +42,6 @@ class SearchWidgets extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("Search Widgets state : ", state);
     return {
         dogList: state.dogList,
         filteredList: state.filteredList
