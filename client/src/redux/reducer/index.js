@@ -54,7 +54,8 @@ const rootReducer = (state = initialState, action) => {
         case CREATE_DOG_ITEM:
             return {
                 ...state,
-                dogList: [action.payload, ...state.dogList]
+                dogList: [action.payload, ...state.dogList],
+                filteredList: [action.payload, ...state.filteredList]
             }
         default:
             return state;

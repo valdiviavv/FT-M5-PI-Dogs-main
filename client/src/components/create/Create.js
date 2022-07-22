@@ -2,6 +2,7 @@ import './Create.css';
 import React from "react";
 import {useDispatch} from "react-redux";
 import {saveDogItem} from "../../redux/actions";
+import {useHistory} from "react-router-dom";
 
 const Create = () => {
 
@@ -22,9 +23,11 @@ const Create = () => {
     }
 
     let dispatch = useDispatch();
+    let history = useHistory();
     function handleSubmit(e) {
         e.preventDefault();
-        dispatch(saveDogItem(dogItem))
+        dispatch(saveDogItem(dogItem));
+        history.push('/search-list');
     }
 
     return(

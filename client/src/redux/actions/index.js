@@ -53,9 +53,10 @@ export const saveDogItem = (dogItem) => {
         let response1 = await axios.post('http://localhost:3001/dogs', dogItem); //success 201
         const {dogId} = response1.data;
         let response2 = await axios.get(`http://localhost:3001/dogs/${dogId}`); //success 200
-        return {
+        response2.data['apiVersion'] = 'v2';
+        dispatch({
             type: CREATE_DOG_ITEM,
             payload: response2.data
-        }
-    }
+        });
+    };
 }
