@@ -1,5 +1,5 @@
 import './Details.css';
-import React,{Component} from "react";
+import React, {Component} from "react";
 import {connect} from "react-redux";
 import {getDogList, updatePageList} from "../../redux/actions";
 import dogFields from "../common/dog-fields";
@@ -31,37 +31,41 @@ class Details extends Component {
     renderDogItem() {
         if (this.props.dogList.length === 0) {
             return (
-                <div>
+                <h1 className='dogErrorMessage'>
                     The store is empty...
-                </div>
+                </h1>
             );
         }
         const dogItem = this.findDetail();
         if (!dogItem) {
             return (
-                <div>
+                <h1 className='dogErrorMessage'>
                     The request dog was not found...
-                </div>
+                </h1>
             );
         }
         return (
-            <div>
-                <h1>Details from '{dogItem.name}' Dog</h1>
-                <p>Temperament: {dogFields.getTemperamentList(dogItem)}</p>
-                <p>Weight: {dogFields.getWeight(dogItem)}</p>
-                <p>Height: {dogFields.getHeight(dogItem)} </p>
-                <p>Life span: {dogItem.life_span}</p>
-                <img src={dogFields.getImageUrl(dogItem)} alt={dogItem.name}/>
-                <br/>
+            <div className='detailsDog'>
+                <div className='imageContainer'>
+                    <img className='detailsImageDog' src={dogFields.getImageUrl(dogItem)} alt={dogItem.name}/>
+                </div>
+                <div className='detailsInfo'>
+                    <h1>{dogItem.name}</h1>
+                    <p><b>Temperament:</b> {dogFields.getTemperamentList(dogItem)}</p>
+                    <p><b>Weight:</b> {dogFields.getWeight(dogItem)}</p>
+                    <p><b>Height:</b> {dogFields.getHeight(dogItem)} </p>
+                    <p><b>Life span:</b> {dogItem.life_span}</p>
+                    <br/>
+                </div>
             </div>
         );
     }
 
     render() {
-        return(
-          <div className="Details">
-              {this.renderDogItem()}
-          </div>
+        return (
+            <div className="Details">
+                {this.renderDogItem()}
+            </div>
         );
     }
 }
