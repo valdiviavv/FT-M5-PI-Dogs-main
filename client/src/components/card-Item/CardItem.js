@@ -4,7 +4,7 @@ import {withRouter} from "react-router";
 
 class CardItem extends Component {
     handleOnClick(event, version, cardId) {
-        event.preventDefault();
+        event.stopPropagation();
         if (this.props.enableAddToFavorites) {
             this.props.addToFavoriteList(version, cardId);
         }
