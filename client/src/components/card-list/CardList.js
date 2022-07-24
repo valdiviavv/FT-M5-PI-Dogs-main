@@ -9,7 +9,9 @@ class CardList extends Component {
     renderEmptyMessage() {
         if(this.props.pageList.length === 0) {
             return(
-              <p>There is not items to display</p>
+                <h1 style={{textAlign: 'center'}} className='dogErrorMessage'>
+                    There are not items to display
+                </h1>
             );
         }
     }
