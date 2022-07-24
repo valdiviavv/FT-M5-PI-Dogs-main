@@ -5,6 +5,8 @@ import {updateFilteredList} from "../../redux/actions";
 
 class SearchWidgets extends Component {
 
+    state = {sourceOption: 'all', searchBreed: ''};
+
     updateFilteredList(filterOption) {
         let filteredList;
         if(filterOption === 'all') {
@@ -23,19 +25,45 @@ class SearchWidgets extends Component {
     }
 
     handleSelectChange(event) {
+        this.setState({sourceOption: event.target.value})
         this.updateFilteredList(event.target.value);
+    }
+
+    onSubmitSearch(event) {
+        event.preventDefault();
+        if(this.state.searchBreed === '') {
+            this.updateFilteredList(this.state.sourceOption);
+            return;
+        }
+        const newFilteredList = this.props.filteredList.filter(item =>
+            item.name.toLowerCase().includes(this.state.searchBreed.toLowerCase())
+        );
+        this.props.updateFilteredList(newFilteredList);
     }
 
     render() {
         return (
             <div className="SearchWidgets">
-                <p>Search Widgets</p>
-                <label htmlFor="source-filter">Choose source:</label>
-                <select id="source-filter" onChange={(e) => {this.handleSelectChange(e)}}>
-                    <option value="all">All</option>
-                    <option value="v1">Readonly API</option>
-                    <option value="v2">Database API</option>
-                </select>
+                <div>
+                    <form onSubmit={e => this.onSubmitSearch(e)}>
+                        <input placeholder="Breed name"
+                               value={this.state.searchBreed}
+                               onChange={e => this.setState({searchBreed: e.target.value})}
+                        />
+                        <button type='submit'>Search</button>
+                    </form>
+                </div>
+                <div>
+                    <label htmlFor="source-filter">Choose source:</label>
+                    <select id="source-filter"
+                            onChange={(e) => {this.handleSelectChange(e)}}
+                            value={this.state.sourceOption}
+                    >
+                        <option value="all">All</option>
+                        <option value="v1">Readonly API</option>
+                        <option value="v2">Database API</option>
+                    </select>
+                </div>
             </div>
         );
     }
