@@ -11,7 +11,6 @@ class Nav extends Component {
               <Link to="/create">Create Dog</Link>{" "}
               <Link to="/favorites">Favorites</Link>{" "}
               <Link to="/about">About</Link>
-              <hr/>
           </div>
         );
     }
