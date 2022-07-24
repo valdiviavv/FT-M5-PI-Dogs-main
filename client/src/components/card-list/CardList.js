@@ -37,7 +37,6 @@ class CardList extends Component {
     render() {
         return(
           <div className="CardList">
-              <h1>Card List</h1>
               {this.renderEmptyMessage()}
               {
                   this.props.pageList.map(dogItem =>

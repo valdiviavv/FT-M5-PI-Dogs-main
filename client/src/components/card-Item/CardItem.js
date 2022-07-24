@@ -1,6 +1,6 @@
 import './CardItem.css';
 import React, {Component} from "react";
-import {Link} from "react-router-dom";
+import {withRouter} from "react-router";
 
 class CardItem extends Component {
     handleOnClick(event, version, cardId) {
@@ -12,36 +12,39 @@ class CardItem extends Component {
             this.props.delelteFromFavoriteList(version, cardId);
         }
     }
+
+    showDetails(version, cardId) {
+        this.props.history.push(`/${version}/details/${cardId}`);
+    }
+
     render() {
-        const {version, cardId, name, temperamentList,weight,image_url} = this.props;
+        const {version, cardId, name, temperamentList, weight, image_url} = this.props;
         return (
-            <div className="CardItem">
-                <p>Card Item</p>
-                <p>
-                    <Link to={`/${version}/details/${cardId}`}>
-                        Dog Details {`${version}-${cardId}`}
-                    </Link>
+            <div className="CardItem" onClick={() => this.showDetails(version, cardId)}>
+                <div>
+                    <img className='imageCardItem' src={image_url} alt={name}/>
+                </div>
+                <div className='breedLike'>
+                    <h3>{name}</h3>
                     {this.props.enableAddToFavorites &&
-                    <button
-                        className="button"
-                        onClick={e => this.handleOnClick(e, version, cardId)}>
-                        Add to favorite
-                    </button>}
+                        <button
+                            className="button"
+                            onClick={e => this.handleOnClick(e, version, cardId)}>
+                            Like
+                        </button>}
                     {this.props.enableRemoveFromFavorites &&
                         <button
                             className="button"
                             onClick={e => this.handleOnClick(e, version, cardId)}>
-                            Remove from favorite
+                            Unlike
                         </button>}
-                </p>
-                <p>{name}</p>
-                <p>Weight: {weight}</p>
-                <p>{temperamentList}</p>
-                <img src={image_url} alt={name}/>
+                </div>
+                <div className='weightCardItem'><b>Weight:</b> {weight}</div>
+                <div>{temperamentList}</div>
                 <br/>
             </div>
         );
     }
 }
 
-export default CardItem;
+export default withRouter(CardItem);
