@@ -2,19 +2,29 @@ import "./SearchWidgets.css";
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {updateFilteredList} from "../../redux/actions";
+import dogFields from "../common/dog-fields";
 
 class SearchWidgets extends Component {
 
-    state = {sourceOption: 'all', searchBreed: ''};
+    state = {
+        sourceOption: 'all',
+        searchBreed: '',
+        orderOption: 'a-z',
+    };
 
-    updateFilteredList(filterOption) {
-        let filteredList;
-        if(filterOption === 'all') {
-            filteredList = this.props.dogList;
-        } else {
-            filteredList = this.getFilteredListByVersion(filterOption);
-        }
+
+    refreshFilteredList(sourceOption, orderOption) {
+        let filteredList = this.getFilteredList(sourceOption);
+        filteredList = this.getOrderedList(filteredList, orderOption);
         this.props.updateFilteredList(filteredList);
+    }
+
+    getFilteredList(sourceOption) {
+        if(sourceOption === 'all') {
+            return this.props.dogList.slice();
+        } else {
+            return this.getFilteredListByVersion(sourceOption);
+        }
     }
 
     getFilteredListByVersion(versionFilter) {
@@ -24,9 +34,36 @@ class SearchWidgets extends Component {
         return this.props.dogList.filter(item => item.apiVersion === versionFilter);
     }
 
+    getOrderedList(filteredList, orderOption) {
+        let newOrderedList = filteredList.slice();
+        switch (orderOption) {
+            case 'a-z':
+                return newOrderedList.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
+            case 'z-a':
+                return newOrderedList.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? -1 : 1);
+            case 'min-max':
+                return newOrderedList.sort((a, b) => {
+                    const aMin = dogFields.getMinWeight(a);
+                    const bMin = dogFields.getMinWeight(b);
+                    return aMin > bMin ? 1 : -1;
+                });
+            case 'max-min':
+                return newOrderedList.sort((a, b) => {
+                    const aMax = dogFields.getMaxWeight(a);
+                    const bMax = dogFields.getMaxWeight(b);
+                    return aMax > bMax ? -1 : 1;
+                });
+            default:
+                return this.props.dogList.slice();
+        }
+    }
+
     handleSelectChange(event) {
         this.setState({sourceOption: event.target.value})
-        this.updateFilteredList(event.target.value);
+    }
+
+    handleOrderChange(event) {
+        this.setState({orderOption: event.target.value})
     }
 
     onSubmitSearch(event) {
@@ -41,6 +78,15 @@ class SearchWidgets extends Component {
         this.props.updateFilteredList(newFilteredList);
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {sourceOption, orderOption} = this.state;
+        if (prevState.sourceOption !== sourceOption ||
+            prevState.orderOption !== orderOption
+        ) {
+            this.refreshFilteredList(sourceOption, orderOption);
+        }
+    }
+
     render() {
         return (
             <div className="SearchWidgets">
@@ -53,6 +99,7 @@ class SearchWidgets extends Component {
                         <button type='submit'>Search</button>
                     </form>
                 </div>
+
                 <div>
                     <label htmlFor="source-filter">Choose source:</label>
                     <select id="source-filter"
@@ -62,6 +109,19 @@ class SearchWidgets extends Component {
                         <option value="all">All</option>
                         <option value="v1">Readonly API</option>
                         <option value="v2">Database API</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label htmlFor="sort-list">Order by:</label>
+                    <select id="sort-list"
+                            onChange={(e) => {this.handleOrderChange(e)}}
+                            value={this.state.orderOption}
+                    >
+                        <option value="a-z">Alphabet A-Z</option>
+                        <option value="z-a">Alphabet Z-A</option>
+                        <option value="min-max">Weight min-max</option>
+                        <option value="max-min">Weight max-min</option>
                     </select>
                 </div>
             </div>

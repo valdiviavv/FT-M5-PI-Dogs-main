@@ -32,6 +32,37 @@ const dogFields = {
             return (`${dogItem.height_min}  -  ${dogItem.height_max}`)
         }
     },
+
+    getMinWeight: function (dogItem) {
+        if (dogItem.apiVersion === 'v1') {
+            return this.getFirstValue(dogItem.weight.metric);
+        } else {
+            return (dogItem.weight_min);
+        }
+    },
+
+    getMaxWeight: function (dogItem) {
+        if (dogItem.apiVersion === 'v1') {
+            return this.getSecondValue(dogItem.weight.metric);
+        } else {
+            return (dogItem.weight_max);
+        }
+    },
+
+    getFirstValue(value) {
+        if (!value || value === '') {
+            return 'n/a'
+        }
+        return Number(value.substring(0, 2).trim());
+    },
+
+    getSecondValue(value) {
+        if (!value || value === '') {
+            return 'n/a'
+        }
+        const index = value.indexOf('-')
+        return Number(value.substring(index + 2));
+    },
 }
 
 export default dogFields;
