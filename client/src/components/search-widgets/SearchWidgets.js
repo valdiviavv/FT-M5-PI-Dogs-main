@@ -9,7 +9,7 @@ class SearchWidgets extends Component {
     state = {
         sourceOption: 'all',
         searchBreed: '',
-        orderOption: 'a-z',
+        orderOption: 'default-order',
     };
 
 
@@ -35,28 +35,27 @@ class SearchWidgets extends Component {
     }
 
     getOrderedList(filteredList, orderOption) {
-        let newOrderedList = filteredList.slice();
         switch (orderOption) {
             case 'a-z':
-                return newOrderedList.sort((a, b) =>
+                return filteredList.sort((a, b) =>
                     (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
             case 'z-a':
-                return newOrderedList.sort((a, b) =>
+                return filteredList.sort((a, b) =>
                     (a.name.toLowerCase() > b.name.toLowerCase()) ? -1 : 1);
             case 'min-max':
-                return newOrderedList.sort((a, b) => {
+                return filteredList.sort((a, b) => {
                     const aMin = dogFields.getMinWeight(a);
                     const bMin = dogFields.getMinWeight(b);
                     return aMin > bMin ? 1 : -1;
                 });
             case 'max-min':
-                return newOrderedList.sort((a, b) => {
+                return filteredList.sort((a, b) => {
                     const aMax = dogFields.getMaxWeight(a);
                     const bMax = dogFields.getMaxWeight(b);
                     return aMax > bMax ? -1 : 1;
                 });
             default:
-                return this.props.dogList.slice();
+                return filteredList;
         }
     }
 
@@ -120,6 +119,7 @@ class SearchWidgets extends Component {
                             onChange={(e) => {this.handleOrderChange(e)}}
                             value={this.state.orderOption}
                     >
+                        <option value="default-order">Default order</option>
                         <option value="a-z">Alphabet A-Z</option>
                         <option value="z-a">Alphabet Z-A</option>
                         <option value="min-max">Weight min-max</option>
