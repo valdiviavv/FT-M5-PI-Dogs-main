@@ -38,9 +38,11 @@ class SearchWidgets extends Component {
         let newOrderedList = filteredList.slice();
         switch (orderOption) {
             case 'a-z':
-                return newOrderedList.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
+                return newOrderedList.sort((a, b) =>
+                    (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
             case 'z-a':
-                return newOrderedList.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? -1 : 1);
+                return newOrderedList.sort((a, b) =>
+                    (a.name.toLowerCase() > b.name.toLowerCase()) ? -1 : 1);
             case 'min-max':
                 return newOrderedList.sort((a, b) => {
                     const aMin = dogFields.getMinWeight(a);

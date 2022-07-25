@@ -19,7 +19,8 @@ const dogFields = {
 
     getWeight: function(dogItem) {
         if (dogItem.apiVersion === 'v1') {
-            return dogItem.weight.metric;
+            const weight = dogItem.weight.metric;
+            return (`${this.getFirstValue(weight)}  -  ${this.getSecondValue(weight)}`);
         } else {
             return (`${dogItem.weight_min}  -  ${dogItem.weight_max}`);
         }
@@ -50,18 +51,33 @@ const dogFields = {
     },
 
     getFirstValue(value) {
-        if (!value || value === '') {
+        if (!value || value === '' || value === 'NaN') {
             return 'n/a'
         }
-        return Number(value.substring(0, 2).trim());
+        let index = value.indexOf('-')
+        if (index === -1) {
+            index = value.length;
+        }
+        let substring = value.substring(0, index).trim();
+        if (substring.includes('NaN')) {
+            substring = value.replace('-', '').replace('NaN', '').trim();
+        }
+        return Number(substring);
     },
 
     getSecondValue(value) {
-        if (!value || value === '') {
+        if (!value || value === '' || value === 'NaN') {
             return 'n/a'
         }
         const index = value.indexOf('-')
-        return Number(value.substring(index + 2));
+        if (index === -1) {
+            return Number(value);
+        }
+        let substring = value.substring(index + 2).trim();
+        if (substring.includes('NaN')) {
+            substring = value.replace('-', '').replace('NaN', '').trim();
+        }
+        return Number(substring);
     },
 }
 
