@@ -14,23 +14,47 @@ class SearchWidgets extends Component {
     };
 
 
-    refreshFilteredList(sourceOption, temperamentOption, orderOption) {
-        let filteredList = this.getFilteredListBySource(sourceOption);
-        filteredList = this.getFilteredListByTemperament(filteredList, temperamentOption)
-        filteredList = this.getOrderedList(filteredList, orderOption);
-        this.props.updateFilteredList(filteredList);
+    refreshFilteredList() {
+        let newFilteredList;
+        newFilteredList = this.getFilteredListByBreed();
+        newFilteredList = this.getFilteredListBySource(newFilteredList);
+        newFilteredList = this.getFilteredListByTemperament(newFilteredList)
+        newFilteredList = this.getOrderedList(newFilteredList);
+        this.props.updateFilteredList(newFilteredList);
     }
 
-    getFilteredListBySource(sourceOption) {
-        if(sourceOption === 'all') {
+    getFilteredListByBreed() {
+        const {searchBreed} = this.state;
+        if(this.props.dogList.length === 0) {
+            return [];
+        }
+        else if(searchBreed === '') { //return the original list without filter.
             return this.props.dogList.slice();
         } else {
-            return this.getFilteredListByVersion(sourceOption);
+            return this.props.dogList.filter(item =>
+                item.name.toLowerCase().includes(searchBreed.toLowerCase())
+            );
         }
     }
 
-    getFilteredListByTemperament(filteredList, temperamentOption) {
-        if(temperamentOption === 'all') {
+    getFilteredListBySource(filteredList) {
+        if(filteredList.length === 0) {
+            return filteredList;
+        }
+        const {sourceOption} = this.state;
+        if(sourceOption === 'all') { //return the received list without filter.
+            return filteredList;
+        } else {
+            return this.getFilteredListByVersion(filteredList);
+        }
+    }
+
+    getFilteredListByTemperament(filteredList) {
+        if(filteredList.length === 0) {
+            return filteredList;
+        }
+        const {temperamentOption} = this.state;
+        if(temperamentOption === 'all') { //return the received list without filter.
             return filteredList;
         }
         return filteredList.filter(item =>
@@ -38,14 +62,19 @@ class SearchWidgets extends Component {
         );
     }
 
-    getFilteredListByVersion(versionFilter) {
-        if(this.props.dogList.length === 0) {
-            return [];
+    getFilteredListByVersion(filteredList) {
+        if(filteredList.length === 0) {
+            return filteredList;
         }
-        return this.props.dogList.filter(item => item.apiVersion === versionFilter);
+        const {sourceOption} = this.state;
+        return filteredList.filter(item => item.apiVersion === sourceOption);
     }
 
-    getOrderedList(filteredList, orderOption) {
+    getOrderedList(filteredList) {
+        if(filteredList.length === 0) {
+            return filteredList;
+        }
+        const {orderOption} = this.state;
         switch (orderOption) {
             case 'a-z':
                 return filteredList.sort((a, b) =>
@@ -65,9 +94,13 @@ class SearchWidgets extends Component {
                     const bMax = dogFields.getMaxWeight(b);
                     return aMax > bMax ? -1 : 1;
                 });
-            default:
+            default: //return the received list without filter.
                 return filteredList;
         }
+    }
+
+    handleSearchChange(event){
+        this.setState({searchBreed: event.target.value});
     }
 
     handleSourceChange(event) {
@@ -84,14 +117,7 @@ class SearchWidgets extends Component {
 
     onSubmitSearch(event) {
         event.preventDefault();
-        if(this.state.searchBreed === '') {
-            this.updateFilteredList(this.state.sourceOption);
-            return;
-        }
-        const newFilteredList = this.props.filteredList.filter(item =>
-            item.name.toLowerCase().includes(this.state.searchBreed.toLowerCase())
-        );
-        this.props.updateFilteredList(newFilteredList);
+        this.refreshFilteredList();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -100,7 +126,7 @@ class SearchWidgets extends Component {
             prevState.temperamentOption !== temperamentOption ||
             prevState.orderOption !== orderOption
         ) {
-            this.refreshFilteredList(sourceOption, temperamentOption, orderOption);
+            this.refreshFilteredList();
         }
     }
 
@@ -111,7 +137,7 @@ class SearchWidgets extends Component {
                     <form onSubmit={e => this.onSubmitSearch(e)}>
                         <input placeholder="Breed name"
                                value={this.state.searchBreed}
-                               onChange={e => this.setState({searchBreed: e.target.value})}
+                               onChange={e => this.handleSearchChange(e)}
                         />
                         <button type='submit'>Search</button>
                     </form>
