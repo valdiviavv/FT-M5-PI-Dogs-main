@@ -1,10 +1,15 @@
 import "./SearchWidgets.css";
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {updateFilteredList} from "../../redux/actions";
+import {updateFilteredList, getTemperamentList} from "../../redux/actions";
 import dogFields from "../common/dog-fields";
 
 class SearchWidgets extends Component {
+    componentDidMount() {
+        if (this.props.temperamentList.length === 0) {
+            this.props.getTemperamentList();
+        }
+    }
 
     state = {
         sourceOption: 'all',
@@ -12,7 +17,6 @@ class SearchWidgets extends Component {
         searchBreed: '',
         orderOption: 'default-order',
     };
-
 
     refreshFilteredList() {
         let newFilteredList;
@@ -162,8 +166,9 @@ class SearchWidgets extends Component {
                             value={this.state.temperamentOption}
                     >
                         <option value="all">All</option>
-                        <option value="Stubborn">Stubborn</option>
-                        <option value="Adventurous">Adventurous</option>
+                        {this.props.temperamentList.map(item =>
+                             <option key={item.id} value={item.name}>{item.name}</option>
+                         )}
                     </select>
                 </div>
 
@@ -188,10 +193,11 @@ class SearchWidgets extends Component {
 const mapStateToProps = (state) => {
     return {
         dogList: state.dogList,
-        filteredList: state.filteredList
+        filteredList: state.filteredList,
+        temperamentList: state.temperamentList,
     };
 }
 
-export const mapDispatchToProps = {updateFilteredList};
+export const mapDispatchToProps = {updateFilteredList, getTemperamentList};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchWidgets);

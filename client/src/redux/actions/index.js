@@ -6,6 +6,7 @@ export const ADD_FAVORITE_ITEM = 'ADD_FAVORITE_ITEM';
 export const DEL_FAVORITE_ITEM = 'DEL_FAVORITE_ITEM';
 export const UPDATE_PAGE_LIST = 'UPDATE_PAGE_LIST';
 export const CREATE_DOG_ITEM = 'CREATE_DOG_ITEM';
+export const GET_TEMPERAMENT_LIST = 'GET_TEMPERAMENT_LIST';
 
 export const getDogList = () => {
     return async function (dispatch) {
@@ -16,6 +17,16 @@ export const getDogList = () => {
         dispatch({
             type: GET_DOG_LIST,
             payload: response2.concat(response1)
+        });
+    };
+};
+
+export const getTemperamentList = () => {
+    return async function (dispatch) {
+        let response = await axios.get('http://localhost:3001/temperaments');
+        dispatch({
+            type: GET_TEMPERAMENT_LIST,
+            payload: response.data
         });
     };
 };
