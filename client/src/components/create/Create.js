@@ -24,7 +24,7 @@ const Create = () => {
         weight_min: 0,
         weight_max: 0,
         life_span: '',
-        temperamentList: '',
+        temperaments: '',
         image_url: '',
         apiVersion: 'v2'
     });
@@ -35,22 +35,33 @@ const Create = () => {
 
     function handleTemperamentChange(event) {
         let tempValue = event.target.value;
-        if(dogItem.temperamentList.includes(tempValue)) {
+        if(dogItem.temperaments.includes(tempValue)) {
             return;
         }
-        if(dogItem.temperamentList.length !== 0) {
+        if(dogItem.temperaments.length !== 0) {
             tempValue = "," + tempValue
         }
         setDogItem({
             ...dogItem,
-            temperamentList: dogItem.temperamentList += tempValue
+            temperaments: dogItem.temperaments += tempValue
         });
     }
 
     function handleSubmit(e) {
         e.preventDefault();
+        dogItem.temperaments = generateTemperamentList(dogItem);
         dispatch(saveDogItem(dogItem));
         history.push('/search-list');
+    }
+
+    function generateTemperamentList(dogItem) {
+        const tempList = [];
+        if(dogItem.temperaments === 0) {
+            return tempList;
+        }
+        const stringList = dogItem.temperaments.split(',');
+        stringList.map(item => tempList.push({name: item}))
+        return tempList;
     }
 
     return (
@@ -102,8 +113,8 @@ const Create = () => {
                     <label>Temperaments: </label>
                     <input placeholder='Temperaments'
                            onChange={(e) => handleChange(e)}
-                           value={dogItem.temperamentList}
-                           type='text' name={'temperamentList'}/>
+                           value={dogItem.temperaments}
+                           type='text' name={'temperaments'}/>
                     <TemperamentFilter
                         filterLabel="Temperament options:"
                         filterOnChange={handleTemperamentChange}
