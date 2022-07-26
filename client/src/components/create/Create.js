@@ -1,10 +1,21 @@
 import './Create.css';
-import React from "react";
-import {useDispatch} from "react-redux";
-import {saveDogItem} from "../../redux/actions";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
+import {saveDogItem, getTemperamentList} from "../../redux/actions";
+import TemperamentFilter from "../temperament-filter/TemperamentFilter";
 
 const Create = () => {
+
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const temperamentList = useSelector(state => state.temperamentList)
+
+    useEffect(() => {
+        if(temperamentList.length === 0) {
+            dispatch(getTemperamentList());
+        }
+    },[])
 
     const [dogItem, setDogItem] = React.useState({
         name: '',
@@ -22,8 +33,19 @@ const Create = () => {
         setDogItem({...dogItem, [event.target.name]: event.target.value})
     }
 
-    let dispatch = useDispatch();
-    let history = useHistory();
+    function handleTemperamentChange(event) {
+        let tempValue = event.target.value;
+        if(dogItem.temperamentList.includes(tempValue)) {
+            return;
+        }
+        if(dogItem.temperamentList.length !== 0) {
+            tempValue = "," + tempValue
+        }
+        setDogItem({
+            ...dogItem,
+            temperamentList: dogItem.temperamentList += tempValue
+        });
+    }
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -82,6 +104,12 @@ const Create = () => {
                            onChange={(e) => handleChange(e)}
                            value={dogItem.temperamentList}
                            type='text' name={'temperamentList'}/>
+                    <TemperamentFilter
+                        filterLabel="Temperament options:"
+                        filterOnChange={handleTemperamentChange}
+                        filterInitialLabel="Select..."
+                        filterOptionList={temperamentList}
+                    />
                 </div>
 
                 <div className='inputLabelField'>
