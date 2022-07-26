@@ -8,23 +8,34 @@ class SearchWidgets extends Component {
 
     state = {
         sourceOption: 'all',
+        temperamentOption: 'all',
         searchBreed: '',
         orderOption: 'default-order',
     };
 
 
-    refreshFilteredList(sourceOption, orderOption) {
-        let filteredList = this.getFilteredList(sourceOption);
+    refreshFilteredList(sourceOption, temperamentOption, orderOption) {
+        let filteredList = this.getFilteredListBySource(sourceOption);
+        filteredList = this.getFilteredListByTemperament(filteredList, temperamentOption)
         filteredList = this.getOrderedList(filteredList, orderOption);
         this.props.updateFilteredList(filteredList);
     }
 
-    getFilteredList(sourceOption) {
+    getFilteredListBySource(sourceOption) {
         if(sourceOption === 'all') {
             return this.props.dogList.slice();
         } else {
             return this.getFilteredListByVersion(sourceOption);
         }
+    }
+
+    getFilteredListByTemperament(filteredList, temperamentOption) {
+        if(temperamentOption === 'all') {
+            return filteredList;
+        }
+        return filteredList.filter(item =>
+            dogFields.getTemperamentList(item).includes(temperamentOption)
+        );
     }
 
     getFilteredListByVersion(versionFilter) {
@@ -59,8 +70,12 @@ class SearchWidgets extends Component {
         }
     }
 
-    handleSelectChange(event) {
+    handleSourceChange(event) {
         this.setState({sourceOption: event.target.value})
+    }
+
+    handleTemperamentChange(event) {
+        this.setState({temperamentOption: event.target.value})
     }
 
     handleOrderChange(event) {
@@ -80,11 +95,12 @@ class SearchWidgets extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {sourceOption, orderOption} = this.state;
+        const {sourceOption, temperamentOption, orderOption} = this.state;
         if (prevState.sourceOption !== sourceOption ||
+            prevState.temperamentOption !== temperamentOption ||
             prevState.orderOption !== orderOption
         ) {
-            this.refreshFilteredList(sourceOption, orderOption);
+            this.refreshFilteredList(sourceOption, temperamentOption, orderOption);
         }
     }
 
@@ -102,14 +118,26 @@ class SearchWidgets extends Component {
                 </div>
 
                 <div>
-                    <label htmlFor="source-filter">Choose source:</label>
+                    <label htmlFor="source-filter">Filter by source:</label>
                     <select id="source-filter"
-                            onChange={(e) => {this.handleSelectChange(e)}}
+                            onChange={(e) => {this.handleSourceChange(e)}}
                             value={this.state.sourceOption}
                     >
                         <option value="all">All</option>
                         <option value="v1">Readonly API</option>
                         <option value="v2">Database API</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label htmlFor="temperament-filter">Filter by temperament:</label>
+                    <select id="temperament-filter"
+                            onChange={(e) => {this.handleTemperamentChange(e)}}
+                            value={this.state.temperamentOption}
+                    >
+                        <option value="all">All</option>
+                        <option value="Stubborn">Stubborn</option>
+                        <option value="Adventurous">Adventurous</option>
                     </select>
                 </div>
 

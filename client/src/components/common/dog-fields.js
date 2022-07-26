@@ -9,11 +9,14 @@ const dogFields = {
 
     getTemperamentList: function(dogItem){
         if (dogItem.apiVersion === 'v1') {
+            if (!dogItem.temperament) {
+                return 'n/a';
+            }
             return dogItem.temperament;
         } else {
             const tempList = [];
-            dogItem.temperaments.map(item => tempList.push(item.name + ', '));
-            return tempList;
+            dogItem.temperaments.map(item => tempList.push(item.name));
+            return tempList.toString();
         }
     },
 
