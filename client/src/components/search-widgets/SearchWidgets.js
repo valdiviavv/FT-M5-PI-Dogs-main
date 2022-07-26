@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {updateFilteredList, getTemperamentList} from "../../redux/actions";
 import dogFields from "../common/dog-fields";
+import TemperamentFilter from "../temperament-filter/TemperamentFilter";
 
 class SearchWidgets extends Component {
     componentDidMount() {
@@ -159,18 +160,12 @@ class SearchWidgets extends Component {
                     </select>
                 </div>
 
-                <div>
-                    <label htmlFor="temperament-filter">Filter by temperament:</label>
-                    <select id="temperament-filter"
-                            onChange={(e) => {this.handleTemperamentChange(e)}}
-                            value={this.state.temperamentOption}
-                    >
-                        <option value="all">All</option>
-                        {this.props.temperamentList.map(item =>
-                             <option key={item.id} value={item.name}>{item.name}</option>
-                         )}
-                    </select>
-                </div>
+                <TemperamentFilter
+                    filterLabel="Filter by temperament:"
+                    filterOnChange={this.handleTemperamentChange}
+                    filterInitialValue={this.state.temperamentOption}
+                    filterOptionList={this.props.temperamentList}
+                />
 
                 <div>
                     <label htmlFor="sort-list">Order by:</label>
