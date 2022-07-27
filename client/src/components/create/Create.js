@@ -29,6 +29,13 @@ const Create = () => {
         apiVersion: 'v2'
     });
 
+    const [errorName, setErrorName] = React.useState('');
+    const [errorLifeSpan, setErrorLifeSpan] = React.useState('');
+    const [errorHeightMin, setErrorHeightMin] = React.useState('');
+    const [errorHeightMax, setErrorHeightMax] = React.useState('');
+    const [errorWeightMin, setErrorWeightMin] = React.useState('');
+    const [errorWeightMax, setErrorWeightMax] = React.useState('');
+
     function handleChange(event) {
         setDogItem({...dogItem, [event.target.name]: event.target.value})
     }
@@ -49,9 +56,124 @@ const Create = () => {
 
     function handleSubmit(e) {
         e.preventDefault();
+        const error = validateFields();
+        if (error) {
+            return;
+        }
         dogItem.temperaments = generateTemperamentList(dogItem);
         dispatch(saveDogItem(dogItem));
         history.push('/search-list');
+    }
+
+    function validateFields() {
+        const errorName = validateName();
+        const errorLifeSpan = validateLifeSpan();
+        const errorHeightMin = validateHeightMin();
+        const errorHeightMax = validateHeightMax();
+        const errorWeightMin = validateWeightMin();
+        const errorWeightMax = validateWeightMax();
+        if (errorName || errorLifeSpan ||
+            errorHeightMin || errorHeightMax ||
+            errorWeightMin || errorWeightMax) {
+            return true;
+        }
+        return false;
+    }
+
+    function validateName() {
+        if (dogItem.name === '') {
+            setErrorName('The value should not be empty.');
+            return true;
+        }
+        else if (dogItem.name.length <= 4) {
+            setErrorName('The value should be greater than four.');
+            return true;
+        }
+        else {
+            setErrorName('');
+            return false;
+        }
+    }
+
+    function validateLifeSpan() {
+        if (dogItem.life_span === '') {
+            setErrorLifeSpan('The value should not be empty.');
+            return true;
+        }
+        else {
+            setErrorLifeSpan('');
+            return false;
+        }
+    }
+
+    function validateHeight() {
+        if (!validateHeightMin()) {
+            validateHeightMax();
+        }
+    }
+
+    function validateHeightMin() {
+        if (dogItem.height_min === 0) {
+            setErrorHeightMin("The value should be greater than zero.");
+            return true;
+        }
+        else if (dogItem.height_min > dogItem.height_max) {
+            setErrorHeightMin("The value should be less than maximum.");
+            return true;
+        } else {
+            setErrorHeightMin('');
+            return false;
+        }
+    }
+
+    function validateHeightMax() {
+        if (dogItem.height_max === 0) {
+            setErrorHeightMax("The value should be greater than zero.");
+            return true;
+        }
+        else if (dogItem.height_min > dogItem.height_max) {
+            setErrorHeightMax("The value should be greater than minimum.");
+            return true;
+        }
+        else {
+            setErrorHeightMax('');
+            return false;
+        }
+    }
+
+    function validateWeight() {
+        if (!validateWeightMin()) {
+            validateWeightMax();
+        }
+    }
+    function validateWeightMin() {
+        if (dogItem.weight_min === 0) {
+            setErrorWeightMin("The value should be greater than zero.");
+            return true;
+        }
+        else if (dogItem.weight_min > dogItem.weight_max) {
+            setErrorWeightMin("The value should be less than maximum.");
+            return true;
+        }
+        else {
+            setErrorWeightMin('');
+            return false;
+        }
+    }
+
+    function validateWeightMax() {
+        if (dogItem.weight_max === 0) {
+            setErrorWeightMax("The value should be greater than zero.");
+            return true;
+        }
+        else if (dogItem.weight_min > dogItem.weight_max) {
+            setErrorWeightMax("The value should be greater than minimum.");
+            return true;
+        }
+        else {
+            setErrorWeightMax('');
+            return false;
+        }
     }
 
     function generateTemperamentList(dogItem) {
@@ -69,35 +191,54 @@ const Create = () => {
             <h1>Create Dog</h1>
             <form onSubmit={e => handleSubmit(e)}>
                 <div className='inputLabelField'>
-                    <label>Breed: </label>
+                    <label className="createTitle">Breed: </label>
                     <input placeholder='Breed name'
                            onChange={(e) => handleChange(e)}
-                           value={dogItem.name} type='text' name={'name'}/>
+                           onBlur={() => validateName()}
+                           value={dogItem.name}
+                           type='text' name={'name'}/>
+                    <span>{errorName}</span>
                 </div>
 
                 <div className='inputDoubleField'>
                     <div>
                         <label>Height Min: </label>
-                        <input onChange={(e) => handleChange(e)} value={dogItem.height_min} type='number'
+                        <input onChange={(e) => handleChange(e)}
+                               onBlur={() => validateHeight()}
+                               value={dogItem.height_min}
+                               type='number'
                                name={'height_min'}/>
+                        <span>{errorHeightMin}</span>
                     </div>
                     <div>
                         <label>Height Max: </label>
-                        <input onChange={(e) => handleChange(e)} value={dogItem.height_max} type='number'
+                        <input onChange={(e) => handleChange(e)}
+                               onBlur={() => validateHeight()}
+                               value={dogItem.height_max}
+                               type='number'
                                name={'height_max'}/>
+                        <span>{errorHeightMax}</span>
                     </div>
                 </div>
 
                 <div className='inputDoubleField'>
                     <div>
                         <label>Weight Min: </label>
-                        <input onChange={(e) => handleChange(e)} value={dogItem.weight_min} type='number'
+                        <input onChange={(e) => handleChange(e)}
+                               onBlur={() => validateWeight()}
+                               value={dogItem.weight_min}
+                               type='number'
                                name={'weight_min'}/>
+                        <span>{errorWeightMin}</span>
                     </div>
                     <div>
                         <label>Weight Max: </label>
-                        <input onChange={(e) => handleChange(e)} value={dogItem.weight_max} type='number'
+                        <input onChange={(e) => handleChange(e)}
+                               onBlur={() => validateWeight()}
+                               value={dogItem.weight_max}
+                               type='number'
                                name={'weight_max'}/>
+                        <span>{errorWeightMax}</span>
                     </div>
                 </div>
 
@@ -105,8 +246,10 @@ const Create = () => {
                     <label>Life Span: </label>
                     <input placeholder='Life Span'
                            onChange={(e) => handleChange(e)}
+                           onBlur={() => validateLifeSpan()}
                            value={dogItem.life_span}
                            type='text' name={'life_span'}/>
+                    <span>{errorLifeSpan}</span>
                 </div>
 
                 <div className='inputLabelField'>

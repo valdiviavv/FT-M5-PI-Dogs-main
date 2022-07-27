@@ -14,6 +14,7 @@
     flex-direction: column;
     width: 50%;
     margin: 0 auto;
+    padding-bottom: 1em;
 }
 
 .Create input {
@@ -30,6 +31,7 @@
 .Create label {
     display: flex;
     justify-content: flex-start;
+    font-weight: bold;
 }
 
 .inputDoubleField {
@@ -37,6 +39,7 @@
     justify-content: center;
     gap: 5em;
     margin: 0 auto;
+    padding-bottom: 1em;
 }
 
 .submitButton {
@@ -48,4 +51,10 @@
     padding: .5em 1em;
     font-size: 1em;
     color: white;
+}
+
+.Create span {
+    display: flex;
+    justify-content: flex-start;
+    color: red;
 }
