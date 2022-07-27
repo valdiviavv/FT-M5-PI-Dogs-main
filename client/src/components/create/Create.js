@@ -7,6 +7,12 @@ import TemperamentFilter from "../temperament-filter/TemperamentFilter";
 
 const Create = () => {
 
+    const regexName = /^[A-Za-z\s]*$/;
+    const regexLifeSpan = /^[\dA-Za-z\s]*$/;
+    const regexUrl = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+
+    const defaultDogImage = 'https://static6.depositphotos.com/1150740/674/v/600/depositphotos_6740798-stock-illustration-cute-cartoon-vector-puppy-dog.jpg';
+
     const dispatch = useDispatch();
     const history = useHistory();
     const temperamentList = useSelector(state => state.temperamentList)
@@ -30,11 +36,12 @@ const Create = () => {
     });
 
     const [errorName, setErrorName] = React.useState('');
-    const [errorLifeSpan, setErrorLifeSpan] = React.useState('');
     const [errorHeightMin, setErrorHeightMin] = React.useState('');
     const [errorHeightMax, setErrorHeightMax] = React.useState('');
     const [errorWeightMin, setErrorWeightMin] = React.useState('');
     const [errorWeightMax, setErrorWeightMax] = React.useState('');
+    const [errorLifeSpan, setErrorLifeSpan] = React.useState('');
+    const [errorImageUrl, setErrorImageUrl] = React.useState('');
 
     function handleChange(event) {
         setDogItem({...dogItem, [event.target.name]: event.target.value})
@@ -72,9 +79,13 @@ const Create = () => {
         const errorHeightMax = validateHeightMax();
         const errorWeightMin = validateWeightMin();
         const errorWeightMax = validateWeightMax();
+        const errorImageUrl = validateImageUrl();
+
         if (errorName || errorLifeSpan ||
             errorHeightMin || errorHeightMax ||
-            errorWeightMin || errorWeightMax) {
+            errorWeightMin || errorWeightMax ||
+            errorImageUrl
+        ) {
             return true;
         }
         return false;
@@ -88,6 +99,10 @@ const Create = () => {
         else if (dogItem.name.length <= 4) {
             setErrorName('The value should be greater than four.');
             return true;
+        } 
+        else if (!regexName.test(dogItem.name)) {
+            setErrorName('The value should contain only letters.');
+            return true;
         }
         else {
             setErrorName('');
@@ -98,6 +113,10 @@ const Create = () => {
     function validateLifeSpan() {
         if (dogItem.life_span === '') {
             setErrorLifeSpan('The value should not be empty.');
+            return true;
+        }
+        else if (!regexLifeSpan.test(dogItem.life_span)) {
+            setErrorLifeSpan('The value should contain only numbers and letters.');
             return true;
         }
         else {
@@ -175,11 +194,27 @@ const Create = () => {
             return false;
         }
     }
+    
+    function validateImageUrl() {
+        if (dogItem.image_url.length !== 0 &&
+            !regexUrl.test(dogItem.image_url)
+        ) {
+            setErrorImageUrl("The provide url is not valid.");
+            return true;
+        }
+        else {
+            setErrorImageUrl('');
+            return false;
+        }
+    }
 
     function generateTemperamentList(dogItem) {
         const tempList = [];
         if(dogItem.temperaments === 0) {
             return tempList;
+        }
+        if (dogItem.image_url === '') {
+            dogItem.image_url = defaultDogImage;
         }
         const stringList = dogItem.temperaments.split(',');
         stringList.map(item => tempList.push({name: item}))
@@ -268,10 +303,12 @@ const Create = () => {
 
                 <div className='inputLabelField'>
                     <label>Url image: </label>
-                    <input placeholder='Url image'
+                    <input placeholder='Optional'
                            onChange={(e) => handleChange(e)}
+                           onBlur={() => validateImageUrl()}
                            value={dogItem.image_url}
                            type='text' name={'image_url'}/>
+                    <span>{errorImageUrl}</span>
                 </div>
                 <br/>
                 <button className='submitButton' type='submit'>Create</button>
