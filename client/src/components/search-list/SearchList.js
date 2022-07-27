@@ -9,7 +9,7 @@ import listUtils from "../common/list-utils";
 
 class SearchList extends Component {
     componentDidMount() {
-        if (this.props.dogList.length === 0 ) {
+        if (this.props.dogList.length === 0) {
             this.props.getDogList();
         }
     }

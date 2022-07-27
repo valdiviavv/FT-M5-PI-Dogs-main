@@ -8,7 +8,7 @@ class TemperamentFilter extends Component {
                 <label htmlFor="temperament-filter">{this.props.filterLabel}</label>
                 <select id="temperament-filter"
                         onChange={(e) => {this.props.filterOnChange(e)}}
-                        value={this.props.filterInitialValue}
+                        value={this.props.filterSelectedOption}
                 >
                     <option value={this.props.filterInitialValue}>
                         {this.props.filterInitialLabel}
@@ -26,6 +26,7 @@ TemperamentFilter.defaultProps = {
     filterLabel: "Select one option: ",
     filterInitialValue: "all",
     filterInitialLabel: "All",
+    filterSelectedOption: "all",
     filterOptionList: [{id: 0, name: "empty array"}],
     filterOnChange: () => console.log("TemperamentFilter's filterOnChange option was not set."),
 }

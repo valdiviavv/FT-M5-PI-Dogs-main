@@ -162,8 +162,8 @@ class SearchWidgets extends Component {
 
                 <TemperamentFilter
                     filterLabel="Filter by temperament:"
-                    filterOnChange={this.handleTemperamentChange}
-                    filterInitialValue={this.state.temperamentOption}
+                    filterOnChange={(e) => this.handleTemperamentChange(e)}
+                    filterSelectedOption={this.state.temperamentOption}
                     filterOptionList={this.props.temperamentList}
                 />
 
