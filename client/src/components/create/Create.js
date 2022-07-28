@@ -9,7 +9,7 @@ const Create = () => {
 
     const regexName = /^[A-Za-z\s]*$/;
     const regexLifeSpan = /^[\dA-Za-z\s]*$/;
-    const regexUrl = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+    const regexUrl = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/g;
 
     const defaultDogImage = 'https://static6.depositphotos.com/1150740/674/v/600/depositphotos_6740798-stock-illustration-cute-cartoon-vector-puppy-dog.jpg';
 
@@ -21,7 +21,7 @@ const Create = () => {
         if(temperamentList.length === 0) {
             dispatch(getTemperamentList());
         }
-    },[])
+    },[dispatch, temperamentList])
 
     const [dogItem, setDogItem] = React.useState({
         name: '',
