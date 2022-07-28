@@ -4,7 +4,8 @@ import {GET_DOG_LIST,
     ADD_FAVORITE_ITEM,
     DEL_FAVORITE_ITEM,
     CREATE_DOG_ITEM,
-    GET_TEMPERAMENT_LIST} from "../actions";
+    GET_TEMPERAMENT_LIST,
+    DEL_DOG_ITEM} from "../actions";
 
 const initialState = {
     dogList: [],
@@ -15,7 +16,17 @@ const initialState = {
     temperamentList: [],
 };
 
+function getListFilteredBy(originalList, dogId, apiVersion) {
+    return originalList.filter(item =>
+        !(item.id === dogId &&
+          item.apiVersion === apiVersion)
+    );
+}
+
 const rootReducer = (state = initialState, action) => {
+    let newFavoriteList;
+    let newPageList;
+
     switch (action.type) {
         case GET_DOG_LIST:
             return {
@@ -35,14 +46,8 @@ const rootReducer = (state = initialState, action) => {
                 favoriteList: [action.payload, ...state.favoriteList]
             }
         case DEL_FAVORITE_ITEM:
-            const newFavoriteList = state.favoriteList.filter(item =>
-                item.id !== action.payload.id &&
-                item.apiVersion === action.payload.apiVersion
-            );
-            const newPageList = state.pageList.filter(item =>
-                item.id !== action.payload.id &&
-                item.apiVersion === action.payload.apiVersion
-            );
+            newFavoriteList = getListFilteredBy(state.favoriteList, action.payload.id, action.payload.apiVersion);
+            newPageList = getListFilteredBy(state.pageList, action.payload.id, action.payload.apiVersion);
             return {
                 ...state,
                 favoriteList: newFavoriteList,
@@ -63,6 +68,18 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 temperamentList: action.payload
+            }
+        case DEL_DOG_ITEM:
+            const newDogList = getListFilteredBy(state.dogList, action.payload.id, action.payload.apiVersion);
+            const newFilteredList = getListFilteredBy(state.filteredList, action.payload.id, action.payload.apiVersion);
+            newFavoriteList = getListFilteredBy(state.favoriteList, action.payload.id, action.payload.apiVersion);
+            newPageList = getListFilteredBy(state.pageList, action.payload.id, action.payload.apiVersion);
+            return {
+                ...state,
+                dogList: newDogList,
+                filteredList: newFilteredList,
+                favoriteList: newFavoriteList,
+                pageList: newPageList,
             }
         default:
             return state;

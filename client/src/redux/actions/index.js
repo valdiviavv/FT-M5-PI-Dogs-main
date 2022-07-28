@@ -7,6 +7,7 @@ export const DEL_FAVORITE_ITEM = 'DEL_FAVORITE_ITEM';
 export const UPDATE_PAGE_LIST = 'UPDATE_PAGE_LIST';
 export const CREATE_DOG_ITEM = 'CREATE_DOG_ITEM';
 export const GET_TEMPERAMENT_LIST = 'GET_TEMPERAMENT_LIST';
+export const DEL_DOG_ITEM = 'DEL_DOG_ITEM';
 
 export const getDogList = () => {
     return async function (dispatch) {
@@ -70,4 +71,14 @@ export const saveDogItem = (dogItem) => {
             payload: response2.data
         });
     };
+}
+
+export const removeDogItem = (dogId) => {
+    return async function(dispatch) {
+        await axios.delete(`http://localhost:3001/dogs/${dogId}`);
+        dispatch({
+            type: DEL_DOG_ITEM,
+            payload: {id: dogId, apiVersion: 'v2'}
+        });
+    }
 }

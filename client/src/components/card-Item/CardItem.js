@@ -1,6 +1,7 @@
 import './CardItem.css';
 import React, {Component} from "react";
 import {withRouter} from "react-router";
+import DeleteButton from "../delete-button/DeleteButton";
 
 class CardItem extends Component {
     handleOnClick(event, version, cardId) {
@@ -42,6 +43,11 @@ class CardItem extends Component {
                 <div className='weightCardItem'><b>Weight:</b> {weight}</div>
                 <div>{temperamentList}</div>
                 <br/>
+
+                <DeleteButton
+                    dogId={cardId}
+                    apiVersion={version}
+                />
             </div>
         );
     }
