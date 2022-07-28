@@ -14,7 +14,9 @@ class Favorites extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-      listUtils.refreshPageList(prevProps, this.props);
+      listUtils.refreshPageList(prevProps.favoriteList,
+                                this.props.favoriteList,
+                                this.props);
     }
 
     render() {

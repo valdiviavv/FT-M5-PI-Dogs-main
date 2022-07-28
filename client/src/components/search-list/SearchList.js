@@ -15,7 +15,9 @@ class SearchList extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        listUtils.refreshPageList(prevProps, this.props);
+        listUtils.refreshPageList(prevProps.filteredList,
+                                  this.props.filteredList,
+                                  this.props);
     }
 
     render() {

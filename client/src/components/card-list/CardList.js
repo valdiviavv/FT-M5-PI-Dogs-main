@@ -23,16 +23,18 @@ class CardList extends Component {
     }
 
     addToFavoriteList(version, cardId) {
-        const element = this.findItem(version, cardId);
-        if (element) {
-            this.props.appendFavoriteList(element);
+        const dogItem = this.findItem(version, cardId);
+        dogItem.enableAddToFavorites = false;
+        if (dogItem) {
+            this.props.appendFavoriteList(dogItem);
         }
     }
 
     deleteFromFavoriteList(version, cardId) {
-        const newFavoriteList = this.findItem(version, cardId);
-        if (newFavoriteList) {
-            this.props.removeFavoriteList(newFavoriteList);
+        const dogItem = this.findItem(version, cardId);
+        dogItem.enableAddToFavorites = true;
+        if (dogItem) {
+            this.props.removeFavoriteList(dogItem);
         }
     }
 
@@ -49,10 +51,9 @@ class CardList extends Component {
                                 temperamentList={dogFields.getTemperamentList(dogItem)}
                                 weight={dogFields.getWeight(dogItem)}
                                 image_url={dogFields.getImageUrl(dogItem)}
-                                enableAddToFavorites={this.props.enableAddToFavorites}
-                                enableRemoveFromFavorites={this.props.enableRemoveFromFavorites}
+                                enableLikeButton={dogItem.enableAddToFavorites}
                                 addToFavoriteList={(version, cardId) => this.addToFavoriteList(version, cardId)}
-                                delelteFromFavoriteList={(version, cardId) => this.deleteFromFavoriteList(version, cardId)}
+                                deleteFromFavoriteList={(version, cardId) => this.deleteFromFavoriteList(version, cardId)}
                       />
                   )
               }

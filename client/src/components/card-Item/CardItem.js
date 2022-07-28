@@ -6,11 +6,10 @@ import DeleteButton from "../delete-button/DeleteButton";
 class CardItem extends Component {
     handleOnClick(event, version, cardId) {
         event.stopPropagation();
-        if (this.props.enableAddToFavorites) {
+        if (this.props.enableLikeButton) {
             this.props.addToFavoriteList(version, cardId);
-        }
-        if (this.props.enableRemoveFromFavorites) {
-            this.props.delelteFromFavoriteList(version, cardId);
+        } else {
+            this.props.deleteFromFavoriteList(version, cardId);
         }
     }
 
@@ -19,7 +18,7 @@ class CardItem extends Component {
     }
 
     render() {
-        const {version, cardId, name, temperamentList, weight, image_url} = this.props;
+        const {version, cardId, name, temperamentList, weight, image_url, enableLikeButton} = this.props;
         return (
             <div className="CardItem" onClick={() => this.showDetails(version, cardId)}>
                 <div>
@@ -27,13 +26,13 @@ class CardItem extends Component {
                 </div>
                 <div className='breedLike'>
                     <h3>{name}</h3>
-                    {this.props.enableAddToFavorites &&
+                    {enableLikeButton &&
                         <button
                             className="button"
                             onClick={e => this.handleOnClick(e, version, cardId)}>
                             Like
                         </button>}
-                    {this.props.enableRemoveFromFavorites &&
+                    {!enableLikeButton &&
                         <button
                             className="button"
                             onClick={e => this.handleOnClick(e, version, cardId)}>

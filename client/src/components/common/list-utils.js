@@ -1,8 +1,7 @@
 const listUtils = {
-    refreshPageList: function (prevProps, props) {
-        const {filteredList, pageSize} = props;
-        if(prevProps.filteredList !== filteredList && filteredList.length !== 0) {
-            const newPageList = filteredList.slice(0, pageSize);
+    refreshPageList: function (prevList, currentList, props) {
+        if(prevList !== currentList) {
+            const newPageList = currentList.slice(0, props.pageSize);
             props.updatePageList(newPageList);
         }
     }

@@ -43,15 +43,14 @@ const rootReducer = (state = initialState, action) => {
         case ADD_FAVORITE_ITEM:
             return {
                 ...state,
-                favoriteList: [action.payload, ...state.favoriteList]
+                favoriteList: [action.payload, ...state.favoriteList],
+                pageList: [...state.pageList],
             }
         case DEL_FAVORITE_ITEM:
             newFavoriteList = getListFilteredBy(state.favoriteList, action.payload.id, action.payload.apiVersion);
-            newPageList = getListFilteredBy(state.pageList, action.payload.id, action.payload.apiVersion);
             return {
                 ...state,
                 favoriteList: newFavoriteList,
-                pageList: newPageList,
             }
         case UPDATE_PAGE_LIST:
             return {
