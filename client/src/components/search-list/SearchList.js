@@ -27,8 +27,12 @@ class SearchList extends Component {
               <SearchWidgets />
               <CardList
                     pageList={this.props.pageList}
-                    enableAddToFavorites={true}/>
-              <PaginateList sourceList={this.props.filteredList}/>
+                    enableAddToFavorites={true}
+              />
+              <PaginateList
+                  sourceList={this.props.filteredList}
+                  currentPageName="searchPage"
+              />
               <br/>
           </div>
         );
@@ -42,6 +46,7 @@ const mapStateToProps = (state) => {
         filteredList: state.filteredList,
         pageList: state.pageList,
         pageSize: state.pageSize,
+        currentPage: state.currentPage
     }
 }
 

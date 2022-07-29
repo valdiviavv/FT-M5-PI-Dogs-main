@@ -60,10 +60,10 @@ export function removeFavoriteList(favoriteItem) {
     }
 }
 
-export function updatePageList(pageList) {
+export function updatePageList(pageList, currentPage) {
     return {
         type: UPDATE_PAGE_LIST,
-        payload: pageList
+        payload: {pageList, currentPage}
     }
 }
 

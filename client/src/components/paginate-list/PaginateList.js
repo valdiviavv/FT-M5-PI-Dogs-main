@@ -4,20 +4,38 @@ import { connect } from "react-redux";
 import { updatePageList } from "../../redux/actions";
 
 class PaginateList extends Component {
+
+    getCurrentPage(pageNumber) {
+        if(!pageNumber) {
+            pageNumber = 1;
+        }
+        const currentPage = {};
+        currentPage[this.props.currentPageName] = pageNumber;
+        return currentPage;
+    }
+
     componentDidMount() {
         const {sourceList, pageSize} = this.props;
-        const newPageList = sourceList.slice(0, pageSize);
-        this.props.updatePageList(newPageList);
+        let pageNumber = this.props.currentPage[this.props.currentPageName];
+        const newPageList = this.getPageList(sourceList, pageNumber, pageSize);
+        const currentPage = this.getCurrentPage(pageNumber);
+        this.props.updatePageList(newPageList, currentPage);
+    }
+
+    getPageList(sourceList, pageNumber, pageSize) {
+        const indexEnd = pageNumber * pageSize;
+        const indexIni = indexEnd - pageSize;
+        return sourceList.slice(indexIni, indexEnd);
     }
 
     updatePageList(event) {
         const {sourceList, pageSize} = this.props;
         const pageNumber = Number(event.target.textContent);
-        const indexEnd = pageNumber * pageSize;
-        const indexIni = indexEnd - pageSize;
-        const newPageList = sourceList.slice(indexIni, indexEnd);
-        this.props.updatePageList(newPageList);
+        const newPageList = this.getPageList(sourceList, pageNumber, pageSize);
+        const currentPage = this.getCurrentPage(pageNumber);
+        this.props.updatePageList(newPageList, currentPage);
     }
+
     renderButtonList() {
         const listLength = this.props.sourceList.length;
         if(listLength === 0) {
@@ -45,9 +63,14 @@ class PaginateList extends Component {
     }
 }
 
+PaginateList.defaultProps = {
+    currentPageName: "defaultPage"
+}
+
 const mapStateToProps = (state) => {
     return {
-        pageSize: state.pageSize
+        pageSize: state.pageSize,
+        currentPage: state.currentPage
     };
 }
 

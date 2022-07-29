@@ -25,8 +25,12 @@ class Favorites extends Component {
               <h1>Favorite Dogs</h1>
               <CardList
                     pageList={this.props.pageList}
-                    enableRemoveFromFavorites={true}/>
-              <PaginateList sourceList={this.props.favoriteList}/>
+                    enableRemoveFromFavorites={true}
+              />
+              <PaginateList
+                  sourceList={this.props.favoriteList}
+                  currentPageName="favoritePage"
+              />
               <br/>
           </div>
         );
