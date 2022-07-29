@@ -53,10 +53,18 @@ class PaginateList extends Component {
         }
         return buttonList;
     }
+
+    getPageNumber() {
+        if(!this.props.currentPage) {
+            return 1;
+        }
+        return this.props.currentPage[this.props.currentPageName];
+    }
+
     render() {
         return (
             <div className="PaginateList">
-                <p>Paginate List</p>
+                <p>Current page: {this.getPageNumber()}</p>
                 {this.renderButtonList()}
             </div>
         );
