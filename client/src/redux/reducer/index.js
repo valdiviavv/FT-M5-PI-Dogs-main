@@ -54,10 +54,12 @@ const rootReducer = (state = initialState, action) => {
                 favoriteList: newFavoriteList,
             }
         case UPDATE_PAGE_LIST:
-            const pageKeyList = Object.keys(action.payload.currentPage);
             const newCurrentPage = {...state.currentPage};
-            const keyName = pageKeyList[0];
-            newCurrentPage[keyName] = action.payload.currentPage[keyName];
+            if (action.payload.currentPage) {
+                const pageKeyList = Object.keys(action.payload.currentPage);
+                const keyName = pageKeyList[0];
+                newCurrentPage[keyName] = action.payload.currentPage[keyName];
+            }
             return {
                 ...state,
                 pageList: action.payload.pageList,

@@ -38,6 +38,7 @@ class Favorites extends Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log("search list store:", state)
     return {
         dogList: state.dogList,
         favoriteList: state.favoriteList,
