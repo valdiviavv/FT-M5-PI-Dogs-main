@@ -136,7 +136,7 @@ const Create = () => {
             setErrorHeightMin("The value should be greater than zero.");
             return true;
         }
-        else if (dogItem.height_min > dogItem.height_max) {
+        else if (Number(dogItem.height_min) > Number(dogItem.height_max)) {
             setErrorHeightMin("The value should be less than maximum.");
             return true;
         } else {
@@ -150,7 +150,7 @@ const Create = () => {
             setErrorHeightMax("The value should be greater than zero.");
             return true;
         }
-        else if (dogItem.height_min > dogItem.height_max) {
+        else if (Number(dogItem.height_min) > Number(dogItem.height_max)) {
             setErrorHeightMax("The value should be greater than minimum.");
             return true;
         }
