@@ -35,6 +35,11 @@ function getDogById(req, res) {
         include: ['temperaments']
     })
         .then(data => {
+            if(!data) {
+                return res.status(404).json({
+                    msg: "The requested dog was not found."
+                });
+            }
             res.status(200).json(data);
         })
         .catch(error => {
@@ -49,15 +54,31 @@ function getDogById(req, res) {
 const createDog = async (req, res) => {
     const {name, life_span, weight_min, weight_max, height_min, height_max, image_url, temperaments} = req.body;
 
-    let dogInstance = await Dog.create({
-        name, life_span, weight_min, weight_max, height_min, height_max, image_url
-    });
+    let dogInstance;
+    try {
+        dogInstance = await Dog.create({
+            name, life_span, weight_min, weight_max, height_min, height_max, image_url
+        });
+    } catch (error) {
+        res.status(400).json({error: error});
+        return;
+    }
 
     if (temperaments && typeof temperaments === 'object') {
-        temperaments.map(async item => {
-            const [tempInstance, created] = await Temperament.findOrCreate({where: {name: item.name}});
-            await dogInstance.addTemperament(tempInstance, {through: DogsAndTemperaments})
-        })
+        const errorList = []
+        for (let index = 0; index < temperaments.length; index++) {
+            let item = temperaments[index];
+            try {
+                const [tempInstance, created] = await Temperament.findOrCreate({where: {name: item.name}});
+                await dogInstance.addTemperament(tempInstance, {through: DogsAndTemperaments})
+            } catch (error) {
+                errorList.push(error);
+            }
+        }
+
+        if(errorList.length !== 0) {
+            res.status(400).json(errorList);
+        }
     }
     res.status(201).json({dogId: dogInstance.id});
 }
