@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {updateFilteredList, getTemperamentList} from "../../redux/actions";
 import dogFields from "../common/dog-fields";
 import TemperamentFilter from "../temperament-filter/TemperamentFilter";
+import listUtils from "../common/list-utils";
 
 class SearchWidgets extends Component {
     componentDidMount() {
@@ -25,7 +26,10 @@ class SearchWidgets extends Component {
         newFilteredList = this.getFilteredListBySource(newFilteredList);
         newFilteredList = this.getFilteredListByTemperament(newFilteredList)
         newFilteredList = this.getOrderedList(newFilteredList);
-        this.props.updateFilteredList(newFilteredList);
+        const {currentPage, currentPageName} = this.props;
+        const pageNumber = 1;
+        const newCurrentPage = listUtils.getCurrentPage(currentPage, currentPageName, pageNumber);
+        this.props.updateFilteredList(newFilteredList, newCurrentPage);
     }
 
     getFilteredListByBreed() {
@@ -190,6 +194,7 @@ const mapStateToProps = (state) => {
         dogList: state.dogList,
         filteredList: state.filteredList,
         temperamentList: state.temperamentList,
+        currentPage: state.currentPage,
     };
 }
 

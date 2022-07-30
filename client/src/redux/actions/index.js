@@ -39,10 +39,10 @@ export const getTemperamentList = () => {
     };
 };
 
-export function updateFilteredList(filteredList) {
+export function updateFilteredList(filteredList, newCurrentPage) {
     return {
         type: UPDATE_FILTERED_LIST,
-        payload: filteredList
+        payload: {filteredList, newCurrentPage}
     }
 }
 
@@ -60,10 +60,10 @@ export function removeFavoriteList(favoriteItem) {
     }
 }
 
-export function updatePageList(pageList, currentPage) {
+export function updatePageList(pageList, newCurrentPage) {
     return {
         type: UPDATE_PAGE_LIST,
-        payload: {pageList, currentPage}
+        payload: {pageList, newCurrentPage}
     }
 }
 

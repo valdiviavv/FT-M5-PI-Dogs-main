@@ -7,16 +7,27 @@ import {getDogList, updatePageList} from "../../redux/actions";
 import listUtils from "../common/list-utils";
 
 class Favorites extends Component {
+    constructor(props) {
+        super(props);
+        this.currentPageName = "favoritePage";
+    }
+
     componentDidMount() {
         if (this.props.dogList.length === 0) {
             this.props.getDogList();
         }
+        const {favoriteList, pageSize, currentPage} = this.props;
+        listUtils.fullRefreshPageList(favoriteList,
+                                      pageSize,
+                                      currentPage,
+                                      this.currentPageName,
+                                      this.props)
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-      listUtils.refreshPageList(prevProps.favoriteList,
-                                this.props.favoriteList,
-                                this.props);
+        listUtils.partialRefreshPageList(prevProps.favoriteList,
+                                         this.props.favoriteList,
+                                         this.props)
     }
 
     render() {
@@ -29,7 +40,7 @@ class Favorites extends Component {
               />
               <PaginateList
                   sourceList={this.props.favoriteList}
-                  currentPageName="favoritePage"
+                  currentPageName={this.currentPageName}
               />
               <br/>
           </div>
@@ -38,12 +49,13 @@ class Favorites extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("search list store:", state)
+    console.log("favorites list store:", state)
     return {
         dogList: state.dogList,
         favoriteList: state.favoriteList,
         pageList: state.pageList,
         pageSize: state.pageSize,
+        currentPage: state.currentPage,
     }
 }
 

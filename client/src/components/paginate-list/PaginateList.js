@@ -2,38 +2,25 @@ import './PaginateList.css';
 import React, {Component} from "react";
 import { connect } from "react-redux";
 import { updatePageList } from "../../redux/actions";
+import listUtils from "../common/list-utils";
 
 class PaginateList extends Component {
 
-    getCurrentPage(pageNumber) {
-        if(!pageNumber) {
-            pageNumber = 1;
-        }
-        const currentPage = {};
-        currentPage[this.props.currentPageName] = pageNumber;
-        return currentPage;
-    }
-
     componentDidMount() {
-        const {sourceList, pageSize} = this.props;
-        let pageNumber = this.props.currentPage[this.props.currentPageName];
-        const newPageList = this.getPageList(sourceList, pageNumber, pageSize);
-        const currentPage = this.getCurrentPage(pageNumber);
-        this.props.updatePageList(newPageList, currentPage);
+        const {sourceList, pageSize, currentPage, currentPageName} = this.props;
+        listUtils.fullRefreshPageList(sourceList,
+                                      pageSize,
+                                      currentPage,
+                                      currentPageName,
+                                      this.props)
     }
 
-    getPageList(sourceList, pageNumber, pageSize) {
-        const indexEnd = pageNumber * pageSize;
-        const indexIni = indexEnd - pageSize;
-        return sourceList.slice(indexIni, indexEnd);
-    }
-
-    updatePageList(event) {
-        const {sourceList, pageSize} = this.props;
+    refreshPageList(event) {
+        const {sourceList, pageSize, currentPage, currentPageName} = this.props;
         const pageNumber = Number(event.target.textContent);
-        const newPageList = this.getPageList(sourceList, pageNumber, pageSize);
-        const currentPage = this.getCurrentPage(pageNumber);
-        this.props.updatePageList(newPageList, currentPage);
+        const newPageList = listUtils.getPageList(sourceList, pageNumber, pageSize);
+        const newCurrentPage = listUtils.getCurrentPage(currentPage, currentPageName, pageNumber);
+        this.props.updatePageList(newPageList, newCurrentPage);
     }
 
     renderButtonList() {
@@ -48,23 +35,17 @@ class PaginateList extends Component {
                 <button
                     className="button"
                     key={i}
-                    onClick={e => this.updatePageList(e)}>{i}
+                    onClick={e => this.refreshPageList(e)}>{i}
                 </button>);
         }
         return buttonList;
     }
 
-    getPageNumber() {
-        if(!this.props.currentPage) {
-            return 1;
-        }
-        return this.props.currentPage[this.props.currentPageName];
-    }
-
     render() {
+        const {currentPage, currentPageName} = this.props;
         return (
             <div className="PaginateList">
-                <p>Current page: {this.getPageNumber()}</p>
+                <p>Current page: {listUtils.getPageNumber(currentPage, currentPageName)}</p>
                 {this.renderButtonList()}
             </div>
         );

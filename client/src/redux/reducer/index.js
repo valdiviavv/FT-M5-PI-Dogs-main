@@ -38,8 +38,9 @@ const rootReducer = (state = initialState, action) => {
         case UPDATE_FILTERED_LIST:
             return {
                 ...state,
-                filteredList: action.payload,
-                pageList: action.payload.slice(0, state.pageSize)
+                filteredList: action.payload.filteredList,
+                pageList: action.payload.filteredList.slice(0, state.pageSize),
+                currentPage: action.payload.newCurrentPage,
             }
         case ADD_FAVORITE_ITEM:
             return {
@@ -52,18 +53,13 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 favoriteList: newFavoriteList,
+                pageList: [...state.pageList],
             }
         case UPDATE_PAGE_LIST:
-            const newCurrentPage = {...state.currentPage};
-            if (action.payload.currentPage) {
-                const pageKeyList = Object.keys(action.payload.currentPage);
-                const keyName = pageKeyList[0];
-                newCurrentPage[keyName] = action.payload.currentPage[keyName];
-            }
             return {
                 ...state,
                 pageList: action.payload.pageList,
-                currentPage: newCurrentPage
+                currentPage: action.payload.newCurrentPage
             }
         case CREATE_DOG_ITEM:
             return {
