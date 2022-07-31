@@ -52,7 +52,6 @@ class SearchList extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("search list store:", state)
     return {
         dogList: state.dogList,
         filteredList: state.filteredList,
