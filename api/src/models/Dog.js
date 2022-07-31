@@ -101,6 +101,18 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
   }, {
-    timestamps: false
+    timestamps: false,
+    validate: {
+      verifyWeight() {
+        if ((this.weight_min > this.weight_max)) {
+          throw new Error('Weight minimum should be lesser than maximum');
+        }
+      },
+      verifyHeight() {
+        if ((this.height_min > this.height_max)) {
+          throw new Error('Height minimum should be greater than maximum');
+        }
+      }
+    }
   });
 };

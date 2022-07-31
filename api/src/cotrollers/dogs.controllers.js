@@ -68,6 +68,9 @@ const createDog = async (req, res) => {
         const errorList = []
         for (let index = 0; index < temperaments.length; index++) {
             let item = temperaments[index];
+            if (item.name.length === 0) {
+                continue; //the model will throw error with this condition.
+            }
             try {
                 const [tempInstance, created] = await Temperament.findOrCreate({where: {name: item.name}});
                 await dogInstance.addTemperament(tempInstance, {through: DogsAndTemperaments})

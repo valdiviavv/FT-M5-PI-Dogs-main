@@ -8,7 +8,7 @@ import TemperamentFilter from "../temperament-filter/TemperamentFilter";
 const Create = () => {
 
     const regexName = /^[A-Za-z\s]*$/;
-    const regexLifeSpan = /^[\dA-Za-z\s]*$/;
+    const regexLifeSpan = /^[\dA-Za-z\s-]*$/;
     const regexUrl = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/g;
 
     const defaultDogImage = 'https://static6.depositphotos.com/1150740/674/v/600/depositphotos_6740798-stock-illustration-cute-cartoon-vector-puppy-dog.jpg';
@@ -25,10 +25,10 @@ const Create = () => {
 
     const [dogItem, setDogItem] = React.useState({
         name: '',
-        height_min: 0,
-        height_max: 0,
-        weight_min: 0,
-        weight_max: 0,
+        height_min: 1,
+        height_max: 1,
+        weight_min: 1,
+        weight_max: 1,
         life_span: '',
         temperaments: '',
         image_url: '',
@@ -81,25 +81,26 @@ const Create = () => {
         const errorWeightMax = validateWeightMax();
         const errorImageUrl = validateImageUrl();
 
-        if (errorName || errorLifeSpan ||
-            errorHeightMin || errorHeightMax ||
-            errorWeightMin || errorWeightMax ||
-            errorImageUrl
-        ) {
-            return true;
-        }
-        return false;
+        return errorName || errorLifeSpan ||
+               errorHeightMin || errorHeightMax ||
+               errorWeightMin || errorWeightMax ||
+               errorImageUrl;
+
     }
 
     function validateName() {
-        if (dogItem.name === '') {
+        if (dogItem.name.length === 0) {
             setErrorName('The value should not be empty.');
             return true;
         }
-        else if (dogItem.name.length <= 4) {
-            setErrorName('The value should be greater than four.');
+        else if (dogItem.name.length < 3) {
+            setErrorName('The value should be greater than three characters.');
             return true;
-        } 
+        }
+        else if (dogItem.name.length > 150) {
+            setErrorName('The value should be less than one hundred and fifty characters.');
+            return true;
+        }
         else if (!regexName.test(dogItem.name)) {
             setErrorName('The value should contain only letters.');
             return true;
@@ -111,8 +112,16 @@ const Create = () => {
     }
 
     function validateLifeSpan() {
-        if (dogItem.life_span === '') {
+        if (dogItem.life_span.length === 0) {
             setErrorLifeSpan('The value should not be empty.');
+            return true;
+        }
+        else if (dogItem.life_span.length < 3) {
+            setErrorName('The value should be greater than three characters.');
+            return true;
+        }
+        else if (dogItem.life_span.length > 50) {
+            setErrorName('The value should be less than fifty characters.');
             return true;
         }
         else if (!regexLifeSpan.test(dogItem.life_span)) {
@@ -126,12 +135,12 @@ const Create = () => {
     }
 
     function validateHeight() {
-        if (!validateHeightMin()) {
-            validateHeightMax();
-        }
+        validateHeightMin();
+        validateHeightMax();
     }
 
     function validateHeightMin() {
+        dogItem.height_min = Number(dogItem.height_min);
         if (dogItem.height_min === 0) {
             setErrorHeightMin("The value should be greater than zero.");
             return true;
@@ -146,11 +155,12 @@ const Create = () => {
     }
 
     function validateHeightMax() {
+        dogItem.height_max = Number(dogItem.height_max)
         if (dogItem.height_max === 0) {
             setErrorHeightMax("The value should be greater than zero.");
             return true;
         }
-        else if (Number(dogItem.height_min) > Number(dogItem.height_max)) {
+        else if (dogItem.height_min > dogItem.height_max) {
             setErrorHeightMax("The value should be greater than minimum.");
             return true;
         }
@@ -161,11 +171,11 @@ const Create = () => {
     }
 
     function validateWeight() {
-        if (!validateWeightMin()) {
-            validateWeightMax();
-        }
+        validateWeightMin();
+        validateWeightMax();
     }
     function validateWeightMin() {
+        dogItem.weight_min = Number(dogItem.weight_min)
         if (dogItem.weight_min === 0) {
             setErrorWeightMin("The value should be greater than zero.");
             return true;
@@ -181,6 +191,7 @@ const Create = () => {
     }
 
     function validateWeightMax() {
+        dogItem.weight_max = Number(dogItem.weight_max);
         if (dogItem.weight_max === 0) {
             setErrorWeightMax("The value should be greater than zero.");
             return true;
@@ -213,7 +224,7 @@ const Create = () => {
         if(dogItem.temperaments === 0) {
             return tempList;
         }
-        if (dogItem.image_url === '') {
+        if (dogItem.image_url.length === 0) {
             dogItem.image_url = defaultDogImage;
         }
         const stringList = dogItem.temperaments.split(',');

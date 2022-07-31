@@ -73,6 +73,7 @@ export const saveDogItem = (dogItem) => {
         const {dogId} = response1.data;
         let response2 = await axios.get(`http://localhost:3001/dogs/${dogId}`); //success 200
         response2.data['apiVersion'] = 'v2';
+        response2.data['enableAddToFavorites'] = true;
         dispatch({
             type: CREATE_DOG_ITEM,
             payload: response2.data
