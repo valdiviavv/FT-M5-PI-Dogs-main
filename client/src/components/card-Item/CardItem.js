@@ -1,4 +1,5 @@
 import './CardItem.css';
+import brokenImage from './broken-image.png'
 import React, {Component} from "react";
 import {withRouter} from "react-router";
 import DeleteButton from "../delete-button/DeleteButton";
@@ -17,12 +18,19 @@ class CardItem extends Component {
         this.props.history.push(`/${version}/details/${cardId}`);
     }
 
+    handleOnErrorImage(event) {
+        event.target.src = brokenImage;
+    }
+
     render() {
         const {version, cardId, name, temperamentList, weight, image_url, enableLikeButton} = this.props;
         return (
             <div className="CardItem" onClick={() => this.showDetails(version, cardId)}>
                 <div>
-                    <img className='imageCardItem' src={image_url} alt={name}/>
+                    <img className='imageCardItem'
+                         src={image_url} alt={name}
+                         onError={(e) => this.handleOnErrorImage(e)}
+                    />
                 </div>
                 <div className='breedLike'>
                     <h3>{name}</h3>
