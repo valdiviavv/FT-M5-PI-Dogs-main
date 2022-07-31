@@ -89,6 +89,7 @@ const Create = () => {
     }
 
     function validateName() {
+        dogItem.name = dogItem.name.trim();
         if (dogItem.name.length === 0) {
             setErrorName('The value should not be empty.');
             return true;
@@ -112,6 +113,7 @@ const Create = () => {
     }
 
     function validateLifeSpan() {
+        dogItem.life_span = dogItem.life_span.trim();
         if (dogItem.life_span.length === 0) {
             setErrorLifeSpan('The value should not be empty.');
             return true;
