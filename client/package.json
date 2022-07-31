@@ -88,13 +88,6 @@
     "build": "react-scripts build",
     "test": "jest --detectOpenHandles --verbose",
     "test:01": "jest tests/01-App.test.js",
-    "test:02": "jest tests/02-Nav.test.js",
-    "test:03": "jest tests/03-actions.test.js",
-    "test:04": "jest tests/04-reducer.test.js",
-    "test:05": "jest tests/05-Home.test.js",
-    "test:06": "jest tests/06-CreateProduct.test.js",
-    "test:07": "jest tests/07-ProductCard.test.js",
-    "test:08": "jest tests/08-ProductDetail.test.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
