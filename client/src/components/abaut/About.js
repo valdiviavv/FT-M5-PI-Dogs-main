@@ -4,7 +4,7 @@ import React, {Component} from "react";
 class About extends Component {
     constructor(props) {
         super(props);
-        this.womanImage = 'https://images.unsplash.com/photo-1569012871812-f38ee64cd54c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyMzM4Mzh8MHwxfHNlYXJjaHw4fHx3b21hbiUyMGNvbXB1dGVyfGVufDB8fHx8MTY1Nzk4NzY4Mg&ixlib=rb-1.2.1&q=80&w=400'
+        this.womanImage = 'http://localhost:3000/veronica_photo.jpg';
     }
 
     render() {
