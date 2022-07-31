@@ -142,47 +142,51 @@ class SearchWidgets extends Component {
     render() {
         return (
             <div className="SearchWidgets">
-                <div>
-                    <form onSubmit={e => this.onSubmitSearch(e)}>
-                        <input placeholder="Breed name"
-                               value={this.state.searchBreed}
-                               onChange={e => this.handleSearchChange(e)}
-                        />
-                        <button type='submit'>Search</button>
-                    </form>
+                <div className="filterInlineButtons">
+                    <div className='searchInput'>
+                        <form onSubmit={e => this.onSubmitSearch(e)}>
+                            <input placeholder="Breed name"
+                                   value={this.state.searchBreed}
+                                   onChange={e => this.handleSearchChange(e)}
+                            />
+                            <button type='submit'>Search</button>
+                        </form>
+                    </div>
+
+                    <div className='filterSelect'>
+                        <label htmlFor="sort-list">Order by:</label>
+                        <select id="sort-list"
+                                onChange={(e) => {this.handleOrderChange(e)}}
+                                value={this.state.orderOption}
+                        >
+                            <option value="default-order">Default order</option>
+                            <option value="a-z">Alphabet A-Z</option>
+                            <option value="z-a">Alphabet Z-A</option>
+                            <option value="min-max">Weight min-max</option>
+                            <option value="max-min">Weight max-min</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div>
-                    <label htmlFor="source-filter">Filter by source:</label>
-                    <select id="source-filter"
-                            onChange={(e) => {this.handleSourceChange(e)}}
-                            value={this.state.sourceOption}
-                    >
-                        <option value="all">All</option>
-                        <option value="v1">Readonly API</option>
-                        <option value="v2">Database API</option>
-                    </select>
-                </div>
+                <div className="filterInlineButtons">
+                    <div className='filterSelect'>
+                        <label htmlFor="source-filter">Filter by source:</label>
+                        <select id="source-filter"
+                                onChange={(e) => {this.handleSourceChange(e)}}
+                                value={this.state.sourceOption}
+                        >
+                            <option value="all">All</option>
+                            <option value="v1">Readonly API</option>
+                            <option value="v2">Database API</option>
+                        </select>
+                    </div>
 
-                <TemperamentFilter
-                    filterLabel="Filter by temperament:"
-                    filterOnChange={(e) => this.handleTemperamentChange(e)}
-                    filterSelectedOption={this.state.temperamentOption}
-                    filterOptionList={this.props.temperamentList}
-                />
-
-                <div>
-                    <label htmlFor="sort-list">Order by:</label>
-                    <select id="sort-list"
-                            onChange={(e) => {this.handleOrderChange(e)}}
-                            value={this.state.orderOption}
-                    >
-                        <option value="default-order">Default order</option>
-                        <option value="a-z">Alphabet A-Z</option>
-                        <option value="z-a">Alphabet Z-A</option>
-                        <option value="min-max">Weight min-max</option>
-                        <option value="max-min">Weight max-min</option>
-                    </select>
+                    <TemperamentFilter
+                        filterLabel="Filter by temperament:"
+                        filterOnChange={(e) => this.handleTemperamentChange(e)}
+                        filterSelectedOption={this.state.temperamentOption}
+                        filterOptionList={this.props.temperamentList}
+                    />
                 </div>
             </div>
         );

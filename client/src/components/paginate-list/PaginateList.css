@@ -1,8 +1,8 @@
-.PaginateList {
-    background-color: lightpink;
-}
-
-.button {
+.PaginateList button {
     margin-right: 3px;
     margin-left: 3px;
+    background-color: dodgerblue;
+    color: white;
+    border: .5em solid dodgerblue;
+    border-radius: .3em;
 }

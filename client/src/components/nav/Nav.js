@@ -5,13 +5,15 @@ import {Link} from "react-router-dom";
 class Nav extends Component {
     render() {
         return (
-          <div className="Nav">
-              <Link to="/">Home</Link>{" "}
-              <Link to="/search-list">Search List</Link>{" "}
-              <Link to="/create">Create Dog</Link>{" "}
-              <Link to="/favorites">Favorites</Link>{" "}
-              <Link to="/about">About</Link>
-          </div>
+            <div className="Nav">
+                <div className="linkGroup">
+                    <Link className='linkItem' to="/">Home</Link>{" "}
+                    <Link className='linkItem' to="/search-list">Search List</Link>{" "}
+                    <Link className='linkItem' to="/create">Create Dog</Link>{" "}
+                    <Link className='linkItem' to="/favorites">Favorites</Link>{" "}
+                    <Link className='linkItem' to="/about">About</Link>
+                </div>
+            </div>
         );
     }
 }

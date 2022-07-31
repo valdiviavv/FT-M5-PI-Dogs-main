@@ -1,5 +1,4 @@
 .CardList {
-    background-color: lightsteelblue;
     display: grid;
     grid-template-columns: auto auto auto auto;
 }

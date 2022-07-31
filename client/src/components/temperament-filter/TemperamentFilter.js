@@ -1,10 +1,9 @@
-import './TemperamentFilter.css';
 import React, {Component} from "react";
 
 class TemperamentFilter extends Component {
     render() {
         return (
-            <div>
+            <div className='filterSelect'>
                 <label htmlFor="temperament-filter">{this.props.filterLabel}</label>
                 <select id="temperament-filter"
                         onChange={(e) => {this.props.filterOnChange(e)}}

@@ -1,12 +1,8 @@
 .CardItem {
-    background-color: lightyellow;
     width: 25em;
     box-shadow: 0px 8px 17px #171a1f;
-    margin-bottom: 1em;
     border-radius: 1em;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1em;
+    margin: 1em auto;
 }
 
 .imageCardItem {
@@ -20,6 +16,17 @@
     margin-left: 1em;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.breedLike button {
+    background-color: dodgerblue;
+    color: white;
+    border: none;
+    border-radius: .5em;
+    height: 2em;
+    margin-right: 1em;
+    font-size: 1em;
 }
 
 .weightCardItem {

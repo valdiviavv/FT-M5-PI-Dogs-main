@@ -1,3 +1,33 @@
 .SearchWidgets {
-    background-color: lightgray;
+    margin-bottom: 1em;
+}
+
+.searchInput input {
+    margin-top: .5em;
+    height: 2em;
+    border: 2px solid lightgray;
+    outline: none;
+    border-radius: .5em;
+}
+
+.filterInlineButtons {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+.searchInput button {
+    background-color: dodgerblue;
+    color: white;
+    padding: .5em;
+    margin-left: .5em;
+    border: none;
+    border-radius: .3em;
+}
+
+.filterSelect select {
+    margin-top: .5em;
+    height: 2em;
+    border: 2px solid lightgray;
+    border-radius: .5em;
 }

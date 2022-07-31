@@ -1,3 +1,9 @@
 .About {
-    background-color: lightcoral;
+    border-radius: 1em;
+    box-shadow: .5em .5em 2em #282c34;
+    margin: 2em 15em;
+}
+
+.detailsInfo h3 {
+    line-height: 2em;
 }

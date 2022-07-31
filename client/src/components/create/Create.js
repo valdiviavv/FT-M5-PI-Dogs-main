@@ -11,7 +11,7 @@ const Create = () => {
     const regexLifeSpan = /^[\dA-Za-z\s-]*$/;
     const regexUrl = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/g;
 
-    const defaultDogImage = 'https://static6.depositphotos.com/1150740/674/v/600/depositphotos_6740798-stock-illustration-cute-cartoon-vector-puppy-dog.jpg';
+    const defaultDogImage = 'http://localhost:3000/default-dog-image.png';
 
     const dispatch = useDispatch();
     const history = useHistory();

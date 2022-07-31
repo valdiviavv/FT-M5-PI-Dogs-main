@@ -1,4 +1,20 @@
 .Footer {
-    background-color: lightgrey;
     padding-bottom: .5em;
+    box-shadow: 5px 0 8px #9095A1;
+}
+
+.contactLinks {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 2em;
+}
+
+.contactLinks a {
+    color: black;
+}
+
+.contactLink {
+    width: 2.5em;
+    height: 2.5em;
 }

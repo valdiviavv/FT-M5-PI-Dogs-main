@@ -1,5 +1,24 @@
 .Nav {
-    background-color: lightgrey;
+    box-shadow: 0 3px 8px #9095A1;
     padding-top: 1em;
     padding-bottom: 1em;
+}
+
+.linkGroup {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin: 0 8em;
+}
+
+.linkItem {
+    color: white;
+    background-color: dodgerblue;
+    padding: .5em;
+    border-radius: .3em;
+    text-decoration: none;
+}
+
+.linkItem:hover {
+    background-color: #005bba;
 }
