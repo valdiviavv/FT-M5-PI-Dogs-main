@@ -1,11 +1,14 @@
-import {GET_DOG_LIST,
+import {
+    GET_DOG_LIST,
     UPDATE_FILTERED_LIST,
     UPDATE_PAGE_LIST,
     ADD_FAVORITE_ITEM,
     DEL_FAVORITE_ITEM,
     CREATE_DOG_ITEM,
     GET_TEMPERAMENT_LIST,
-    DEL_DOG_ITEM} from "../actions";
+    DEL_DOG_ITEM,
+    UPDATE_FILTER_OPTIONS
+} from "../actions";
 
 const initialState = {
     dogList: [],
@@ -15,6 +18,12 @@ const initialState = {
     pageSize: 8,
     temperamentList: [],
     currentPage: {},
+    filterOptions: {
+        sourceOption: 'all',
+        temperamentOption: 'all',
+        searchBreed: '',
+        orderOption: 'default-order',
+    }
 };
 
 function getListFilteredBy(originalList, dogId, apiVersion) {
@@ -83,6 +92,11 @@ const rootReducer = (state = initialState, action) => {
                 filteredList: newFilteredList,
                 favoriteList: newFavoriteList,
                 pageList: newPageList,
+            }
+        case UPDATE_FILTER_OPTIONS:
+            return {
+                ...state,
+                filterOptions: action.payload
             }
         default:
             return state;

@@ -1,7 +1,7 @@
 import "./SearchWidgets.css";
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {updateFilteredList, getTemperamentList} from "../../redux/actions";
+import {updateFilteredList, getTemperamentList, updateFilterOptions} from "../../redux/actions";
 import dogFields from "../common/dog-fields";
 import TemperamentFilter from "../temperament-filter/TemperamentFilter";
 import listUtils from "../common/list-utils";
@@ -12,13 +12,6 @@ class SearchWidgets extends Component {
             this.props.getTemperamentList();
         }
     }
-
-    state = {
-        sourceOption: 'all',
-        temperamentOption: 'all',
-        searchBreed: '',
-        orderOption: 'default-order',
-    };
 
     refreshFilteredList() {
         let newFilteredList;
@@ -33,11 +26,11 @@ class SearchWidgets extends Component {
     }
 
     getFilteredListByBreed() {
-        const {searchBreed} = this.state;
+        const {searchBreed} = this.props.filterOptions;
         if(this.props.dogList.length === 0) {
             return [];
         }
-        else if(searchBreed === '') { //return the original list without filter.
+        else if(searchBreed.length === 0) { //return the original list without filter.
             return this.props.dogList.slice();
         } else {
             return this.props.dogList.filter(item =>
@@ -50,7 +43,7 @@ class SearchWidgets extends Component {
         if(filteredList.length === 0) {
             return filteredList;
         }
-        const {sourceOption} = this.state;
+        const {sourceOption} = this.props.filterOptions;
         if(sourceOption === 'all') { //return the received list without filter.
             return filteredList;
         } else {
@@ -62,7 +55,7 @@ class SearchWidgets extends Component {
         if(filteredList.length === 0) {
             return filteredList;
         }
-        const {temperamentOption} = this.state;
+        const {temperamentOption} = this.props.filterOptions;
         if(temperamentOption === 'all') { //return the received list without filter.
             return filteredList;
         }
@@ -75,7 +68,7 @@ class SearchWidgets extends Component {
         if(filteredList.length === 0) {
             return filteredList;
         }
-        const {sourceOption} = this.state;
+        const {sourceOption} = this.props.filterOptions;
         return filteredList.filter(item => item.apiVersion === sourceOption);
     }
 
@@ -83,7 +76,7 @@ class SearchWidgets extends Component {
         if(filteredList.length === 0) {
             return filteredList;
         }
-        const {orderOption} = this.state;
+        const {orderOption} = this.props.filterOptions;
         switch (orderOption) {
             case 'a-z':
                 return filteredList.sort((a, b) =>
@@ -109,19 +102,35 @@ class SearchWidgets extends Component {
     }
 
     handleSearchChange(event){
-        this.setState({searchBreed: event.target.value});
+        const newFilterOptions = {
+            ...this.props.filterOptions,
+            searchBreed: event.target.value
+        };
+        this.props.updateFilterOptions(newFilterOptions);
     }
 
     handleSourceChange(event) {
-        this.setState({sourceOption: event.target.value})
+        const newFilterOptions = {
+            ...this.props.filterOptions,
+            sourceOption: event.target.value
+        };
+        this.props.updateFilterOptions(newFilterOptions);
     }
 
     handleTemperamentChange(event) {
-        this.setState({temperamentOption: event.target.value})
+        const newFilterOptions = {
+            ...this.props.filterOptions,
+            temperamentOption: event.target.value
+        };
+        this.props.updateFilterOptions(newFilterOptions)
     }
 
     handleOrderChange(event) {
-        this.setState({orderOption: event.target.value})
+        const newFilterOptions = {
+        ...this.props.filterOptions,
+            orderOption: event.target.value,
+        }
+        this.props.updateFilterOptions(newFilterOptions)
     }
 
     onSubmitSearch(event) {
@@ -130,10 +139,10 @@ class SearchWidgets extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {sourceOption, temperamentOption, orderOption} = this.state;
-        if (prevState.sourceOption !== sourceOption ||
-            prevState.temperamentOption !== temperamentOption ||
-            prevState.orderOption !== orderOption
+        const {sourceOption, temperamentOption, orderOption} = this.props.filterOptions;
+        if (prevProps.filterOptions.sourceOption !== sourceOption ||
+            prevProps.filterOptions.temperamentOption !== temperamentOption ||
+            prevProps.filterOptions.orderOption !== orderOption
         ) {
             this.refreshFilteredList();
         }
@@ -146,7 +155,7 @@ class SearchWidgets extends Component {
                     <div className='searchInput'>
                         <form onSubmit={e => this.onSubmitSearch(e)}>
                             <input placeholder="Breed name"
-                                   value={this.state.searchBreed}
+                                   value={this.props.filterOptions.searchBreed}
                                    onChange={e => this.handleSearchChange(e)}
                             />
                             <button type='submit'>Search</button>
@@ -157,7 +166,7 @@ class SearchWidgets extends Component {
                         <label htmlFor="sort-list">Order by:</label>
                         <select id="sort-list"
                                 onChange={(e) => {this.handleOrderChange(e)}}
-                                value={this.state.orderOption}
+                                value={this.props.filterOptions.orderOption}
                         >
                             <option value="default-order">Default order</option>
                             <option value="a-z">Alphabet A-Z</option>
@@ -173,7 +182,7 @@ class SearchWidgets extends Component {
                         <label htmlFor="source-filter">Filter by source:</label>
                         <select id="source-filter"
                                 onChange={(e) => {this.handleSourceChange(e)}}
-                                value={this.state.sourceOption}
+                                value={this.props.filterOptions.sourceOption}
                         >
                             <option value="all">All</option>
                             <option value="v1">Readonly API</option>
@@ -184,7 +193,7 @@ class SearchWidgets extends Component {
                     <TemperamentFilter
                         filterLabel="Filter by temperament:"
                         filterOnChange={(e) => this.handleTemperamentChange(e)}
-                        filterSelectedOption={this.state.temperamentOption}
+                        filterSelectedOption={this.props.filterOptions.temperamentOption}
                         filterOptionList={this.props.temperamentList}
                     />
                 </div>
@@ -199,9 +208,12 @@ const mapStateToProps = (state) => {
         filteredList: state.filteredList,
         temperamentList: state.temperamentList,
         currentPage: state.currentPage,
+        filterOptions: state.filterOptions
     };
 }
 
-export const mapDispatchToProps = {updateFilteredList, getTemperamentList};
+export const mapDispatchToProps = {updateFilteredList,
+                                   getTemperamentList,
+                                   updateFilterOptions};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchWidgets);

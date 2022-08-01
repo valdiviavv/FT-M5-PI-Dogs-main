@@ -8,6 +8,7 @@ export const UPDATE_PAGE_LIST = 'UPDATE_PAGE_LIST';
 export const CREATE_DOG_ITEM = 'CREATE_DOG_ITEM';
 export const GET_TEMPERAMENT_LIST = 'GET_TEMPERAMENT_LIST';
 export const DEL_DOG_ITEM = 'DEL_DOG_ITEM';
+export const UPDATE_FILTER_OPTIONS = 'UPDATE_FILTER_OPTIONS';
 
 export const getDogList = () => {
     return async function (dispatch) {
@@ -88,5 +89,12 @@ export const removeDogItem = (dogId) => {
             type: DEL_DOG_ITEM,
             payload: {id: dogId, apiVersion: 'v2'}
         });
+    }
+}
+
+export function updateFilterOptions(filterOptions) {
+    return {
+        type: UPDATE_FILTER_OPTIONS,
+        payload: filterOptions
     }
 }
