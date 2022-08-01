@@ -11,7 +11,7 @@ function getDogList(req, res) {
     if(dogName) {
         options['where'] = {
             name: {
-                [Op.like]: `%${dogName}%`
+                [Op.iLike]: `%${dogName}%`
             }
         }
     }
