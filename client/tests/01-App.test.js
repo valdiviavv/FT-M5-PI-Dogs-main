@@ -45,6 +45,12 @@ describe('<App />', () => {
         pageSize: 8,
         temperamentList: [],
         currentPage: {},
+        filterOptions: {
+            sourceOption: 'all',
+            temperamentOption: 'all',
+            searchBreed: '',
+            orderOption: 'default-order',
+        }
     };
 
     beforeEach(async () => {
