@@ -191,3 +191,13 @@ __IMPORTANTE__: No está permitido utilizar los filtrados, ordenamientos y pagin
 - [ ] Al menos tener un componente del frontend con sus tests respectivos
 - [ ] Al menos tener una ruta del backend con sus tests respectivos
 - [ ] Al menos tener un modelo de la base de datos con sus tests respectivos
+
+## Updates
+- Add a reset button to SearchWidgets
+- Change Home's title: Paws App
+- Add Edit component
+- Update PaginateList component to show only 10 buttons
+- Add Loading component.
+- Add Help page.
+- Change About's photo.
+- Change like/unlike button to icon.
