@@ -29,6 +29,4 @@ const DeleteButton = (props) =>  {
     );
 }
 
-//export const mapDispatchToProps = {removeDogItem}
-
 export default DeleteButton;
