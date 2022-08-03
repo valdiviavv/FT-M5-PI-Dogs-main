@@ -65,10 +65,17 @@ const rootReducer = (state = initialState, action) => {
                 pageList: [...state.pageList],
             }
         case UPDATE_PAGE_LIST:
-            return {
-                ...state,
-                pageList: action.payload.pageList,
-                currentPage: action.payload.newCurrentPage
+            if(action.payload.newCurrentPage) {
+                return {
+                    ...state,
+                    pageList: action.payload.pageList,
+                    currentPage: action.payload.newCurrentPage
+                }
+            } else {
+                return {
+                    ...state,
+                    pageList: action.payload.pageList,
+                }
             }
         case CREATE_DOG_ITEM:
             return {
