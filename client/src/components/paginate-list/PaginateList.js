@@ -15,12 +15,43 @@ class PaginateList extends Component {
                                       this.props)
     }
 
-    refreshPageList(event) {
+    refreshPageList(pageNumber) {
         const {sourceList, pageSize, currentPage, currentPageName} = this.props;
-        const pageNumber = Number(event.target.textContent);
         const newPageList = listUtils.getPageList(sourceList, pageNumber, pageSize);
         const newCurrentPage = listUtils.getCurrentPage(currentPage, currentPageName, pageNumber);
         this.props.updatePageList(newPageList, newCurrentPage);
+    }
+
+    getPrevPage() {
+        const {currentPage, currentPageName} = this.props
+        if (!currentPage) { // if currentPage is not defined it is on page 1.
+            return;
+        }
+        const pageNumber = currentPage[currentPageName];
+        const prevPage = pageNumber - 1;
+        console.log("next page:", prevPage);
+        if (prevPage < 1) {
+            return;
+        }
+        this.refreshPageList(prevPage)
+    }
+
+    getNextPage() {
+        const {currentPage, currentPageName} = this.props
+        let pageNumber;
+        if (!currentPage) { // if currentPage is not defined it is on page 1.
+            pageNumber = 1;
+        } else {
+            pageNumber = currentPage[currentPageName];
+        }
+        const nextPage = pageNumber + 1;
+        console.log("next page:", nextPage);
+        const listLength = this.props.sourceList.length;
+        const numButtons = Math.ceil(listLength / this.props.pageSize);
+        if (nextPage > numButtons) {
+            return;
+        }
+        this.refreshPageList(nextPage)
     }
 
     renderButtonList() {
@@ -30,14 +61,26 @@ class PaginateList extends Component {
         }
         const buttonList = [];
         const numButtons = Math.ceil(listLength / this.props.pageSize);
+        buttonList.push( // definicion del boton previo
+            <button
+                className="button"
+                key={0}
+                onClick={() => this.getPrevPage()}>Prev
+            </button>);
         for (let i = 1; i <= numButtons; i++) {
             buttonList.push(
                 <button
                     className="button"
                     key={i}
-                    onClick={e => this.refreshPageList(e)}>{i}
+                    onClick={e => this.refreshPageList(Number(e.target.textContent))}>{i}
                 </button>);
         }
+        buttonList.push( //definicion del boton siguiente.
+            <button
+                className="button"
+                key={numButtons+1}
+                onClick={() => this.getNextPage()}>Next
+            </button>);
         return buttonList;
     }
 
