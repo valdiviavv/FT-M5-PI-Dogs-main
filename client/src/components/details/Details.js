@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {getDogList, updatePageList} from "../../redux/actions";
 import dogFields from "../common/dog-fields";
+import DeleteButton from "../delete-button/DeleteButton";
 
 class Details extends Component {
 
@@ -56,6 +57,11 @@ class Details extends Component {
                     <p><b>Height:</b> {dogFields.getHeight(dogItem)} </p>
                     <p><b>Life span:</b> {dogItem.life_span}</p>
                     <br/>
+                    <DeleteButton
+                        dogId={dogItem.id}
+                        apiVersion={dogItem.apiVersion}
+                        returnToSearch={true}
+                    />
                 </div>
             </div>
         );

@@ -1,29 +1,34 @@
 import './DeleteButton.css';
-import React, {Component} from "react";
-import {connect} from "react-redux";
+import React from "react";
+import {useDispatch} from "react-redux";
 import {removeDogItem} from "../../redux/actions";
+import {useHistory} from "react-router-dom";
 
-class DeleteButton extends Component {
+const DeleteButton = (props) =>  {
 
-    handleOnClick(event, dogId) {
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    function handleOnClick(event, dogId) {
         event.stopPropagation();
-        this.props.removeDogItem(dogId);
+        dispatch(removeDogItem(dogId));
+        if(props.returnToSearch) {
+            history.push('/search-list')
+        }
     }
 
-    render() {
-        const {apiVersion, dogId} = this.props;
-        return (
-            <div className="DeleteButton">
-                {apiVersion === 'v2' &&
-                    <button onClick={e => this.handleOnClick(e, dogId)}
-                    >Delete
-                    </button>
-                }
-            </div>
-        );
-    }
+    const {apiVersion, dogId} = props;
+    return (
+        <div className="DeleteButton">
+            {apiVersion === 'v2' &&
+                <button onClick={e => handleOnClick(e, dogId)}
+                >Delete
+                </button>
+            }
+        </div>
+    );
 }
 
-export const mapDispatchToProps = {removeDogItem}
+//export const mapDispatchToProps = {removeDogItem}
 
-export default connect(null, mapDispatchToProps)(DeleteButton);
+export default DeleteButton;
