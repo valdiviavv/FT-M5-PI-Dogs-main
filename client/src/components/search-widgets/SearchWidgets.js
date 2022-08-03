@@ -84,16 +84,28 @@ class SearchWidgets extends Component {
             case 'z-a':
                 return filteredList.sort((a, b) =>
                     (a.name.toLowerCase() > b.name.toLowerCase()) ? -1 : 1);
-            case 'min-max':
+            case 'weight-min-max':
                 return filteredList.sort((a, b) => {
                     const aMin = dogFields.getMinWeight(a);
                     const bMin = dogFields.getMinWeight(b);
                     return aMin > bMin ? 1 : -1;
                 });
-            case 'max-min':
+            case 'weight-max-min':
                 return filteredList.sort((a, b) => {
                     const aMax = dogFields.getMaxWeight(a);
                     const bMax = dogFields.getMaxWeight(b);
+                    return aMax > bMax ? -1 : 1;
+                });
+            case 'height-min-max':
+                return filteredList.sort((a, b) => {
+                    const aMin = dogFields.getMinHeight(a);
+                    const bMin = dogFields.getMinHeight(b);
+                    return aMin > bMin ? 1 : -1;
+                });
+            case 'height-max-min':
+                return filteredList.sort((a, b) => {
+                    const aMax = dogFields.getMaxHeight(a);
+                    const bMax = dogFields.getMaxHeight(b);
                     return aMax > bMax ? -1 : 1;
                 });
             default: //return the received list without filter.
@@ -171,8 +183,10 @@ class SearchWidgets extends Component {
                             <option value="default-order">Default order</option>
                             <option value="a-z">Alphabet A-Z</option>
                             <option value="z-a">Alphabet Z-A</option>
-                            <option value="min-max">Weight min-max</option>
-                            <option value="max-min">Weight max-min</option>
+                            <option value="weight-min-max">Weight min-max</option>
+                            <option value="weight-max-min">Weight max-min</option>
+                            <option value="height-min-max">Height min-max</option>
+                            <option value="height-max-min">Height max-min</option>
                         </select>
                     </div>
                 </div>

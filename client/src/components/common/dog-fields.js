@@ -52,7 +52,21 @@ const dogFields = {
             return (dogItem.weight_max);
         }
     },
+    getMinHeight: function (dogItem) {
+        if (dogItem.apiVersion === 'v1') {
+            return this.getFirstValue(dogItem.height.metric);
+        } else {
+            return (dogItem.height_min);
+        }
+    },
 
+    getMaxHeight: function (dogItem) {
+        if (dogItem.apiVersion === 'v1') {
+            return this.getSecondValue(dogItem.height.metric);
+        } else {
+            return (dogItem.height_max);
+        }
+    },
     getFirstValue(value) {
         if (!value || value === '' || value === 'NaN') {
             return 'n/a'
