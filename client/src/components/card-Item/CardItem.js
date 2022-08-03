@@ -23,7 +23,7 @@ class CardItem extends Component {
     }
 
     render() {
-        const {version, cardId, name, temperamentList, weight, image_url, enableLikeButton} = this.props;
+        const {version, cardId, name, temperamentList, weight, height, image_url, enableLikeButton} = this.props;
         return (
             <div className="CardItem" onClick={() => this.showDetails(version, cardId)}>
                 <div>
@@ -48,6 +48,7 @@ class CardItem extends Component {
                         </button>}
                 </div>
                 <div className='weightCardItem'><b>Weight:</b> {weight}</div>
+                <div className='heightCardItem'><b>Height:</b> {height}</div>
                 <div>{temperamentList}</div>
                 <br/>
 

@@ -50,6 +50,7 @@ class CardList extends Component {
                                 name={dogItem.name}
                                 temperamentList={dogFields.getTemperamentList(dogItem)}
                                 weight={dogFields.getWeight(dogItem)}
+                                height={dogFields.getHeight(dogItem)}
                                 image_url={dogFields.getImageUrl(dogItem)}
                                 enableLikeButton={dogItem.enableAddToFavorites}
                                 addToFavoriteList={(version, cardId) => this.addToFavoriteList(version, cardId)}
