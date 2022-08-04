@@ -137,7 +137,9 @@ values
 (1, 1),
 (1, 3),
 (2, 2),
-(2, 3);
+(2, 3),
+(3, 5),
+(3, 6);
 
 select * from dogs;
 select * from temperaments;
