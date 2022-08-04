@@ -19,19 +19,15 @@ describe('Dogs and Temperaments model', () => {
             })
                 .catch((error) => done(new Error(`There was an error creating the dog: \n${error}`)))
                 .then((dogInstance) => {
-                    console.log('The dogInstance was created: ', dogInstance);
                     Temperament.create({
                         name: 'Curious'
                     })
                         .catch((error) => done(new Error(`There was an error creating the temperament: \n${error}`)))
                         .then((tempInstance) => {
-                            console.log('The tempInstance was created: ', tempInstance);
                             dogInstance.addTemperament(tempInstance, {through: DogsAndTemperaments})
                                 .catch((error) => done(new Error(`There was an error adding the temperament to the dog: \n${error}`)))
                                 .then((dogAndTemperamentInstance) => {
-                                    console.log('dogAndTemperamentInstance: ', dogAndTemperamentInstance)
                                     if (dogAndTemperamentInstance) {
-                                        console.log('The dogAndTemperamentInstance: was created:', dogAndTemperamentInstance);
                                         done();
                                     } else {
                                         done(new Error('The dog-temperament relation was not created.'));
