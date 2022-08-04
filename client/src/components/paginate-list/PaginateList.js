@@ -24,9 +24,6 @@ class PaginateList extends Component {
 
     getPrevPage() {
         const {currentPage, currentPageName} = this.props
-        if (!currentPage) { // if currentPage is not defined it is on page 1.
-            return;
-        }
         const pageNumber = currentPage[currentPageName];
         const prevPage = pageNumber - 1;
         console.log("next page:", prevPage);
@@ -38,12 +35,7 @@ class PaginateList extends Component {
 
     getNextPage() {
         const {currentPage, currentPageName} = this.props
-        let pageNumber;
-        if (!currentPage) { // if currentPage is not defined it is on page 1.
-            pageNumber = 1;
-        } else {
-            pageNumber = currentPage[currentPageName];
-        }
+        const pageNumber = currentPage[currentPageName];
         const nextPage = pageNumber + 1;
         console.log("next page:", nextPage);
         const listLength = this.props.sourceList.length;
