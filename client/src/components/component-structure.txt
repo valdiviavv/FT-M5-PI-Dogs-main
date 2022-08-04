@@ -1,0 +1,33 @@
+App.js
+└── Nav
+  ├── Home
+  ├── SearchList
+  ├── Details
+  ├── Create
+  ├── Favorites
+  ├── About
+  └── Footer
+
+  SearchList
+  ├── SearchWidgets
+  │   └── TemperamentFilter
+  ├── CardList
+  │   └── CardItem
+  │       └── DeleteButton
+  └── PaginateList
+
+  Favorites
+  ├── CardList
+  │   └── CardItem
+  │       └── DeleteButton
+  └── PaginateList
+
+  Create
+  └── TemperamentFilter
+
+  Details
+  └── DeleteButton
+
+common folder:
+├── dog-fields.js
+└──list-utils.js
