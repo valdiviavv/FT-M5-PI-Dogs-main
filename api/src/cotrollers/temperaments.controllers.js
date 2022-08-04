@@ -44,7 +44,6 @@ function createTemperament(req, res) {
             res.status(201).json(data);
         })
         .catch(error => {
-            console.log("error: ", error);
             res.status(400).json({
                 msg: "There was an error retrieving database information",
                 error
