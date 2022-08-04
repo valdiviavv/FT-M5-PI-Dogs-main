@@ -2,7 +2,8 @@
 insert into dogs (name, life_span, weight_min, weight_max, height_min, height_max, image_url) 
 values 
 ('Bull Low', '10 - 12 years', 13, 15, 20, 25, 'http://localhost:3000/default-dog-image.png'),
-('American Low', '12 - 15 years', 23, 25, 40, 50, 'http://localhost:3000/default-dog-image.png');
+('American Low', '12 - 15 years', 23, 25, 40, 50, 'http://localhost:3000/default-dog-image.png'),
+('Italian Low', '10 - 12 years', 32, 34, 31, 35, 'http://localhost:3000/no-existing-image.png');
 
 insert into temperaments (name)
 values 
