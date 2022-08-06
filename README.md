@@ -201,3 +201,7 @@ __IMPORTANTE__: No está permitido utilizar los filtrados, ordenamientos y pagin
 - Add Help page.
 - Change About's photo.
 - Change like/unlike button to icon.
+- Login page
+- Deploy to Heroku
+- Add migrations to Sequelize
+- Add more unit tests and coverage reports
