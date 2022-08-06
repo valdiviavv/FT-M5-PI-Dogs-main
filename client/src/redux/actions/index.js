@@ -69,27 +69,36 @@ export function updatePageList(pageList, newCurrentPage) {
 }
 
 export const saveDogItem = (dogItem) => {
-    return async function(dispatch) {
-        let response1 = await axios.post('http://localhost:3001/dogs', dogItem); //success 201
-        const {dogId} = response1.data;
-        let response2 = await axios.get(`http://localhost:3001/dogs/${dogId}`); //success 200
-        response2.data['apiVersion'] = 'v2';
-        response2.data['enableAddToFavorites'] = true;
-        dispatch({
-            type: CREATE_DOG_ITEM,
-            payload: response2.data
-        });
+    return function (dispatch) {
+        axios.post('http://localhost:3001/dogs', dogItem) //success 201
+            .catch(error => console.log(error))
+            .then(response1 => {
+                const {dogId} = response1.data;
+                axios.get(`http://localhost:3001/dogs/${dogId}`)//success 200
+                    .catch(error => console.log(error))
+                    .then(response2 => {
+                        response2.data['apiVersion'] = 'v2';
+                        response2.data['enableAddToFavorites'] = true;
+                        dispatch({
+                            type: CREATE_DOG_ITEM,
+                            payload: response2.data
+                        });
+                    });
+            });
     };
 }
 
 export const removeDogItem = (dogId) => {
-    return async function(dispatch) {
-        await axios.delete(`http://localhost:3001/dogs/${dogId}`);
-        dispatch({
-            type: DEL_DOG_ITEM,
-            payload: {id: dogId, apiVersion: 'v2'}
-        });
-    }
+    return function (dispatch) {
+        axios.delete(`http://localhost:3001/dogs/${dogId}`)
+            .then(response => {
+                dispatch({
+                    type: DEL_DOG_ITEM,
+                    payload: {id: dogId, apiVersion: 'v2'}
+                });
+            })
+            .catch(error => console.log(error))
+    };
 }
 
 export function updateFilterOptions(filterOptions) {
