@@ -1,3 +1,6 @@
+create database "dogs_db";
+create user dog_user with encrypted password '!DogPassw0rd';
+grant all privileges on database "dogs_db" to dog_user;
 
 insert into dogs (name, life_span, weight_min, weight_max, height_min, height_max, image_url) 
 values 
