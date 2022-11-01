@@ -10,10 +10,14 @@ export const GET_TEMPERAMENT_LIST = 'GET_TEMPERAMENT_LIST';
 export const DEL_DOG_ITEM = 'DEL_DOG_ITEM';
 export const UPDATE_FILTER_OPTIONS = 'UPDATE_FILTER_OPTIONS';
 
+const {
+    REACT_APP_BACK_HOST
+} = process.env;
+
 export const getDogList = () => {
     return async function (dispatch) {
         let response1 = await axios.get('https://api.thedogapi.com/v1/breeds');
-        let response2 = await axios.get('http://localhost:3001/dogs');
+        let response2 = await axios.get(`${REACT_APP_BACK_HOST}/dogs`);
         response1 = response1.data.map(item => ({
             apiVersion: 'v1',
             enableAddToFavorites: true,
@@ -32,7 +36,7 @@ export const getDogList = () => {
 
 export const getTemperamentList = () => {
     return async function (dispatch) {
-        let response = await axios.get('http://localhost:3001/temperaments');
+        let response = await axios.get(`${REACT_APP_BACK_HOST}/temperaments`);
         dispatch({
             type: GET_TEMPERAMENT_LIST,
             payload: response.data
@@ -70,11 +74,11 @@ export function updatePageList(pageList, newCurrentPage) {
 
 export const saveDogItem = (dogItem) => {
     return function (dispatch) {
-        axios.post('http://localhost:3001/dogs', dogItem) //success 201
+        axios.post(`${REACT_APP_BACK_HOST}/dogs`, dogItem) //success 201
             .catch(error => console.log(error))
             .then(response1 => {
                 const {dogId} = response1.data;
-                axios.get(`http://localhost:3001/dogs/${dogId}`)//success 200
+                axios.get(`${REACT_APP_BACK_HOST}/dogs/${dogId}`)//success 200
                     .catch(error => console.log(error))
                     .then(response2 => {
                         response2.data['apiVersion'] = 'v2';
@@ -90,7 +94,7 @@ export const saveDogItem = (dogItem) => {
 
 export const removeDogItem = (dogId) => {
     return function (dispatch) {
-        axios.delete(`http://localhost:3001/dogs/${dogId}`)
+        axios.delete(`${REACT_APP_BACK_HOST}/dogs/${dogId}`)
             .then(response => {
                 dispatch({
                     type: DEL_DOG_ITEM,
