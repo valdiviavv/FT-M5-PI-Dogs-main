@@ -2,8 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const dogsRouter = require('./routes/dogs.router');
-const temperamentRouter = require('./routes/temperaments.router');
+const dogsRoutes = require('./routes');
 
 require('./db.js');
 
@@ -25,8 +24,15 @@ server.use((req, res, next) => {
   next();
 });
 
-server.use('/dogs', dogsRouter);
-server.use('/temperaments', temperamentRouter);
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger-output.json');
+server.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
+server.get('/', (req, res) => {
+  res.redirect("/doc");
+});
+
+server.use(dogsRoutes);
 
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

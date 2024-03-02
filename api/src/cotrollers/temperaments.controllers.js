@@ -2,6 +2,9 @@
 const { Temperament } = require('../db');
 
 function getTemperamentList(req, res) {
+    // #swagger.description = ''
+    // #swagger.tags = ['Temperaments'] #swagger.security = [{ "bearerAuth": [] }]
+
     Temperament.findAll()
     .then(data => {
         res.status(200).json(data);
@@ -16,6 +19,9 @@ function getTemperamentList(req, res) {
 }
 
 function getTemperamentById(req, res) {
+    // #swagger.description = ''
+    // #swagger.tags = ['Temperaments'] #swagger.security = [{ "bearerAuth": [] }]
+
     const temperamentId = req.params.id;
     Temperament.findByPk(temperamentId)
         .then(data => {
@@ -36,6 +42,9 @@ function getTemperamentById(req, res) {
 }
 
 function createTemperament(req, res) {
+    // #swagger.description = ''
+    // #swagger.tags = ['Temperaments'] #swagger.security = [{ "bearerAuth": [] }]
+
     const {name} = req.body;
     Temperament.create({
         name
@@ -52,6 +61,9 @@ function createTemperament(req, res) {
 }
 
 const updateTemperament = async (req, res) => {
+    // #swagger.description = ''
+    // #swagger.tags = ['Temperaments'] #swagger.security = [{ "bearerAuth": [] }]
+
     const temperamentId = req.params.id;
     const temperamentInstance = await Temperament.findByPk(temperamentId);
 
@@ -78,6 +90,9 @@ const updateTemperament = async (req, res) => {
 }
 
 const deleteTemperamentById = async (req, res) => {
+    // #swagger.description = ''
+    // #swagger.tags = ['Temperaments'] #swagger.security = [{ "bearerAuth": [] }]
+
     const temperamentId = req.params.id;
     const temperamentInstance = await Temperament.findByPk(temperamentId);
 

@@ -3,6 +3,9 @@ const { Dog, Temperament, DogsAndTemperaments } = require('../db');
 const { Op } = require("sequelize");
 
 function getDogList(req, res) {
+    // #swagger.description = ''
+    // #swagger.tags = ['Dogs'] #swagger.security = [{ "bearerAuth": [] }]
+
     let options = {
         include: ['temperaments']
     }
@@ -30,6 +33,9 @@ function getDogList(req, res) {
 }
 
 function getDogById(req, res) {
+    // #swagger.description = ''
+    // #swagger.tags = ['Dogs'] #swagger.security = [{ "bearerAuth": [] }]
+
     const dogId = req.params.id;
     Dog.findByPk(dogId, {
         include: ['temperaments']
@@ -52,6 +58,9 @@ function getDogById(req, res) {
 }
 
 const createDog = async (req, res) => {
+    // #swagger.description = ''
+    // #swagger.tags = ['Dogs'] #swagger.security = [{ "bearerAuth": [] }]
+
     const {name, life_span, weight_min, weight_max, height_min, height_max, image_url, temperaments} = req.body;
 
     let dogInstance;
@@ -87,6 +96,9 @@ const createDog = async (req, res) => {
 }
 
 const updateDog = async (req, res) => {
+    // #swagger.description = ''
+    // #swagger.tags = ['Dogs'] #swagger.security = [{ "bearerAuth": [] }]
+
     const dogId = req.params.id;
     const dogInstance = await Dog.findByPk(dogId);
 
@@ -113,6 +125,9 @@ const updateDog = async (req, res) => {
 }
 
 const deleteDogById = async (req, res) => {
+    // #swagger.description = ''
+    // #swagger.tags = ['Dogs'] #swagger.security = [{ "bearerAuth": [] }]
+
     const dogId = req.params.id;
     const dogInstance = await Dog.findByPk(dogId);
 
