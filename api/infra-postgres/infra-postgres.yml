@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+
+  db:
+    image: postgres:13.5-alpine
+    environment:
+      - POSTGRES_DB=dogs_db
+      - POSTGRES_USER=dog_user
+      - POSTGRES_PASSWORD=!DogPassw0rd
+      - TZ=UTC
+    volumes:
+      - dogs-app-data-local:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer:4
+    ports:
+      - "8081:8080"
+
+# permanent storage of data.
+# > docker volume rm postgres_dogs-app-data-local
+volumes:
+  dogs-app-data-local:
