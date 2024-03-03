@@ -36,10 +36,12 @@ server.use(dogsRoutes);
 
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
-  const status = err.status || 500;
+  const status  = err.status || err.statusCode || 500;
   const message = err.message || err;
-  console.error(err);
-  res.status(status).send(message);
+  const details = err.data || 'There is no details available.';
+  console.error('There was an error processing the request: ', status, err, details);
+  res.status(status).json({status, message, details});
+  next();
 });
 
 module.exports = server;
