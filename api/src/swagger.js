@@ -9,7 +9,7 @@ const doc = {
     servers: [],
     tags: [
         {
-            name: 'Auth',
+            name: 'Signup',
             description: 'Manages the signup, email verification, and login tasks.'
         },
         {
