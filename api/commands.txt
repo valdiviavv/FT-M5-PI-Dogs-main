@@ -1,0 +1,11 @@
+
+npm install --save express-validator
+npm install --save bcryptjs
+npm install --save jsonwebtoken
+
+-------------------------------------------------
+npm install --save nodemailer nodemailer-sendgrid-transport
+
+-------------------------------------------------
+npm install --save swagger-ui-express
+npm install --save-dev swagger-autogen@latest
