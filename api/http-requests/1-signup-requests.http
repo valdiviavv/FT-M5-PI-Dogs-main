@@ -1,0 +1,52 @@
+### Get Root Endpoint
+GET {{host}}/
+Accept: application/json
+
+### Create User One Signup
+POST {{host}}/signup
+Content-Type: application/json
+
+{
+  "email": "valdiviavv@hotmail.com",
+  "name": "Veronica",
+  "password": "V$ronica865742"
+}
+
+### Confirm User One
+GET {{host}}/signup/bf1337c7f021e5b7fff3a6fb2fafd4881cf0432f6b51db2e4bce70a5c4f9aca2
+
+### Get User One Token
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "email": "valdiviavv@hotmail.com",
+  "password": "V$ronica865742"
+}
+
+> {%
+    client.global.set("access-token", response.body.token);
+%}
+
+### ----------------------------------------------------------------------------------------------
+### Create User Two Signup
+POST {{host}}/signup
+Content-Type: application/json
+
+{
+  "email": "salomon@hotmail.com",
+  "name": "Salomon",
+  "password": "V$ronica865742"
+}
+
+### Confirm User Two
+GET {{host}}/signup/57725453dbeeac99c495c326796be7620d4b395d2915f3d0911806cf2ba78dc3
+
+### Get User Two Token
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "email": "salomon@hotmail.com",
+  "password": "V$ronica865742"
+}

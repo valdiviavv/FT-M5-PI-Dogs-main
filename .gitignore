@@ -108,3 +108,4 @@ package-lock.json
 
 .idea/
 swagger-output.json
+http-client.private.env.json

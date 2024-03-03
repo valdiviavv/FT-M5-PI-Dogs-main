@@ -1,0 +1,21 @@
+### Get User List Endpoint
+GET {{host}}/users
+Authorization: Bearer {{access-token}}
+Accept: application/json
+
+### Update User List Endpoint
+PUT {{host}}/users/8
+Authorization: Bearer {{access-token}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "veronica@hotmail.com",
+  "name": "veronica vv",
+  "password": "V$ronica865742"
+}
+
+### Delete User Endpoint
+DELETE {{host}}/users/10
+Authorization: Bearer {{access-token}}
+Accept: application/json
