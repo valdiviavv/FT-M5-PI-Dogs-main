@@ -20,6 +20,7 @@ const modelDefiners = [];
 fs.readdirSync(path.join(__dirname, '/models'))
   .filter((file) => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
   .forEach((file) => {
+    console.log('Sequelize configuring model: ', file);
     modelDefiners.push(require(path.join(__dirname, '/models', file)));
   });
 
