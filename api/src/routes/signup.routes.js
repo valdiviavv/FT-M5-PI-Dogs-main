@@ -6,15 +6,24 @@ const signupController = require('../cotrollers/signup.controller');
 
 const router = express.Router();
 
-const emailValidations =
+const signupValidations = [
     body('email')
         .not().isEmpty()
         .withMessage('Email should not be empty.')
         .isEmail()
         .withMessage('Please enter a valid email.')
-        .normalizeEmail();
-
-const passwordValidations =
+        .normalizeEmail().custom((value, {req}) => {
+        return User.findOne({
+            where: {
+                email: value
+            }
+        })
+            .then(userDoc => {
+                if (userDoc) {
+                    return Promise.reject(new Error('E-Mail address already exists!'));
+                }
+            });
+    }),
     body('password')
         .trim()
         .isLength({ min: 8 })
@@ -22,23 +31,7 @@ const passwordValidations =
         .isLength({ max: 30 })
         .withMessage('Password maximal length is 30 characters.')
         .matches(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/)
-        .withMessage('Password should have at least one number and one special character');
-
-const signupValidations = [
-    emailValidations
-        .custom((value, {req}) => {
-            return User.findOne({
-                    where: {
-                        email: value
-                    }
-                })
-                .then(userDoc => {
-                    if (userDoc) {
-                        return Promise.reject(new Error('E-Mail address already exists!'));
-                    }
-                });
-        }),
-    passwordValidations,
+        .withMessage('Password should have at least one number and one special character'),
     body('name')
         .trim()
         .not().isEmpty()
@@ -50,7 +43,9 @@ const signupValidations = [
 ];
 
 const loginValidations = [
-    emailValidations,
+    body('email')
+        .not().isEmpty()
+        .withMessage('password should not be empty.'),
     body('password')
         .not().isEmpty()
         .withMessage('password should not be empty.'),
