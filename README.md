@@ -205,3 +205,7 @@ __IMPORTANTE__: No está permitido utilizar los filtrados, ordenamientos y pagin
 - Deploy to Heroku
 - Add migrations to Sequelize
 - Add more unit tests and coverage reports
+
+## Render Deployment
+The Dogs API was deployed to Render:
+https://dogs-backend-gmj7.onrender.com
